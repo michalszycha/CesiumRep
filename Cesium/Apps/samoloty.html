@@ -43,8 +43,9 @@
 	Cesium.Math.setRandomNumberSeed(3);
 	
 	//Set bounds of our simulation time
+	var duration = 720
 	var start = Cesium.JulianDate.fromDate(new Date(2015, 2, 25, 16));
-	var stop = Cesium.JulianDate.addSeconds(start, 360, new Cesium.JulianDate());
+	var stop = Cesium.JulianDate.addSeconds(start, duration, new Cesium.JulianDate());
 	
 	//Make sure viewer is at the desired time.
 	viewer.clock.startTime = start.clone();
@@ -61,22 +62,6 @@
 	function computeCirclularFlight(lon1, lat1, lon2, lat2) {
 		var property = new Cesium.SampledPositionProperty();
 		
-		/* funkcja jak miałem w javie na androida
-		var earthRadius = 6371;
-		
-		var dLat = Cesium.Math.toRadians(lat2-lat1);
-		var dLon = Cesium.Math.toRadians(lon2-lon1);
-		
-		lat1 = Cesium.Math.toRadians(lat1);
-		lat2 = Cesium.Math.toRadians(lat2);
-		
-		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        var odl = earthRadius * c;
-		console.log(odl);
-		*/
-		
 		//funkcje z biblioteki GeodesyLibrary
 		// instantiate the calculator
 		var geoCalc = new GeodeticCalculator();
@@ -92,51 +77,30 @@
 		
 		// calculate the geodetic measurement
 		var geoMeasurement = geoCalc.calculateGeodeticMeasurement(reference, pointStart, pointStop);
-		
+		/*
 		console.info('ElevationChange', geoMeasurement.getElevationChange());
 		console.info('PointToPointDistance', geoMeasurement.getPointToPointDistance()/1000);
 		console.info('EllipsoidalDistance', geoMeasurement.getEllipsoidalDistance());
 		console.info('Azimuth', geoMeasurement.getAzimuth());
 		console.info('ReverseAzimuth', geoMeasurement.getReverseAzimuth());
-		
-		var odl = geoMeasurement.getPointToPointDistance()/1000;
-		
-		var dLat = lat2-lat1;
-		var dLon = lon2-lon1;
-		/*
-		for (var i=lon1; i==lon2; i-=0.05) {
-			//console.log("elo");
-			var radius = 0.03;
-			var radians = Cesium.Math.toRadians(i);
-			//console.info('Radians',radians);
-			var time = Cesium.JulianDate.addSeconds(start, i, new Cesium.JulianDate());
-			//var position = Cesium.Cartesian3.fromDegrees(lon1 + (radius * 1.5 * Math.cos(radians)), lat1 + (radius * Math.sin(radians)), Cesium.Math.nextRandomNumber() * 500 + 1750);
-			var position = Cesium.Cartesian3.fromDegrees(i, lat1 + i, 3000);
-			//console.info('Position',position);
-			property.addSample(time, position);
-	
-			//Also create a point for each sample we generate.
-			viewer.entities.add({
-				position : position,
-				point : {
-					pixelSize : 8,
-					color : Cesium.Color.TRANSPARENT,
-					outlineColor : Cesium.Color.YELLOW,
-					outlineWidth : 3
-				}
-			});
-		}
 		*/
 		var lonTmp = lon1;
 		var latTmp = lat1;
-		var i = 0.05
+		var i = 0.20
+		var x = latTmp-lat2
+		var y = parseInt(x/i);
+		console.info('y',y);
+		var t = parseInt(duration/y);
+		console.info('t',t);
+		var z = 0;
 		while(latTmp>lat2) {
-			console.info("latTmp",latTmp);
-			var time = Cesium.JulianDate.addSeconds(start, i, new Cesium.JulianDate());
+			//console.info("latTmp",latTmp);
+			var time = Cesium.JulianDate.addSeconds(start, z, new Cesium.JulianDate());
 			var position = Cesium.Cartesian3.fromDegrees(lonTmp, latTmp, 3000);
 			latTmp-=i;
 			lonTmp+=i;
 			property.addSample(time, position);
+			console.info('time', time);
 	
 			//Also create a point for each sample we generate.
 			viewer.entities.add({
@@ -148,11 +112,11 @@
 					outlineWidth : 3
 				}
 			});
+			z+=t;
+			
 		}
+		console.info("z",z);
 		return property;
-		
-		
-		
 	}
 	
 	function computeCirclularFlight2(lon, lat, radius) {
@@ -161,8 +125,9 @@
 			var radians = Cesium.Math.toRadians(i);
 			var time = Cesium.JulianDate.addSeconds(start, i, new Cesium.JulianDate());
 			var position = Cesium.Cartesian3.fromDegrees(lon + (radius * 1.5 * Math.cos(radians)), lat + (radius * Math.sin(radians)), Cesium.Math.nextRandomNumber() * 500 + 1750);
-			console.info('position',position);
+			//console.info('position',position);
 			property.addSample(time, position);
+			console.info('time', time);
 	
 			//Also create a point for each sample we generate.
 			viewer.entities.add({
@@ -182,7 +147,7 @@
 	//Compute the entity position property.
 	//point1 - gdansk walesa
 	//point2 - warszawa chopin				lon1		lat1	lon2		lat2
-	var position = computeCirclularFlight(18.467854, 54.379048, 20.967627, 52.167362);
+	var position = computeCirclularFlight(18.467854, 54.379048, 20.967627, 48.167362);
 	//var position = computeCirclularFlight2(-112.110693, 36.0994841, 0.03);
 	
 	//Actually create the entity
