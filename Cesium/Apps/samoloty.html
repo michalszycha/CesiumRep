@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Use correct character set. -->
+  <meta charset="utf-8">
+  <!-- Tell IE to use the latest, best version. -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Make the application on mobile take up the full browser screen and disable user scaling. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+  <title>Hello World!</title>
+  <script src="../Build/Cesium/Cesium.js"></script>
+  <script src="../GlobalPosition.js" ></script>
+  <script src="../Angle.js" ></script>
+  <script src="../Ellipsoid.js" ></script>
+  <script src="../GeodeticCalculator.js" ></script>
+  <script src="../GeodeticCurve.js" ></script>
+  <script src="../GeodeticMeasurement.js" ></script>
+  <script src="../GlobalCoordinates.js" ></script>
+  <style>
+      @import url(../Build/Cesium/Widgets/widgets.css);
+      html, body, #cesiumContainer {
+          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+      }
+  </style>
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <script>
+	var viewer = new Cesium.Viewer('cesiumContainer', {
+    infoBox: false, //Disable InfoBox widget
+    selectionIndicator: false, //Disable selection indicator
+    shouldAnimate: true, // Enable animations
+    terrainProvider: Cesium.createWorldTerrain()
+	});
+	
+	//Enable lighting based on sun/moon positions
+	viewer.scene.globe.enableLighting = true;
+	
+	//Enable depth testing so things behind the terrain disappear.
+	viewer.scene.globe.depthTestAgainstTerrain = true;
+	
+	//Set the random number seed for consistent results.
+	Cesium.Math.setRandomNumberSeed(3);
+	
+	//Set bounds of our simulation time
+	var start = Cesium.JulianDate.fromDate(new Date(2015, 2, 25, 16));
+	var stop = Cesium.JulianDate.addSeconds(start, 360, new Cesium.JulianDate());
+	
+	//Make sure viewer is at the desired time.
+	viewer.clock.startTime = start.clone();
+	viewer.clock.stopTime = stop.clone();
+	viewer.clock.currentTime = start.clone();
+	viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; //Loop at the end
+	viewer.clock.multiplier = 10;
+	
+	//Set timeline to simulation bounds
+	viewer.timeline.zoomTo(start, stop);
+	
+	//Generate a random circular pattern with varying heights.
+	//function computeCirclularFlight(lon, lat, radius) {
+	function computeCirclularFlight(lon1, lat1, lon2, lat2) {
+		var property = new Cesium.SampledPositionProperty();
+		
+		/* funkcja jak miałem w javie na androida
+		var earthRadius = 6371;
+		
+		var dLat = Cesium.Math.toRadians(lat2-lat1);
+		var dLon = Cesium.Math.toRadians(lon2-lon1);
+		
+		lat1 = Cesium.Math.toRadians(lat1);
+		lat2 = Cesium.Math.toRadians(lat2);
+		
+		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var odl = earthRadius * c;
+		console.log(odl);
+		*/
+		
+		//funkcje z biblioteki GeodesyLibrary
+		// instantiate the calculator
+		var geoCalc = new GeodeticCalculator();
+		
+		// select a reference elllipsoid
+		var reference = Ellipsoid.WGS84;
+		
+		// set Pike's Peak position
+		var pointStart = new GlobalPosition(lat1, lon1, 50.0);
+		
+		// set Alcatraz Island coordinates
+		var pointStop = new GlobalPosition(lat2, lon2, 47.0);
+		
+		// calculate the geodetic measurement
+		var geoMeasurement = geoCalc.calculateGeodeticMeasurement(reference, pointStart, pointStop);
+		
+		console.info('ElevationChange', geoMeasurement.getElevationChange());
+		console.info('PointToPointDistance', geoMeasurement.getPointToPointDistance()/1000);
+		console.info('EllipsoidalDistance', geoMeasurement.getEllipsoidalDistance());
+		console.info('Azimuth', geoMeasurement.getAzimuth());
+		console.info('ReverseAzimuth', geoMeasurement.getReverseAzimuth());
+		
+		var odl = geoMeasurement.getPointToPointDistance()/1000;
+		
+		var dLat = lat2-lat1;
+		var dLon = lon2-lon1;
+		/*
+		for (var i=lon1; i==lon2; i-=0.05) {
+			//console.log("elo");
+			var radius = 0.03;
+			var radians = Cesium.Math.toRadians(i);
+			//console.info('Radians',radians);
+			var time = Cesium.JulianDate.addSeconds(start, i, new Cesium.JulianDate());
+			//var position = Cesium.Cartesian3.fromDegrees(lon1 + (radius * 1.5 * Math.cos(radians)), lat1 + (radius * Math.sin(radians)), Cesium.Math.nextRandomNumber() * 500 + 1750);
+			var position = Cesium.Cartesian3.fromDegrees(i, lat1 + i, 3000);
+			//console.info('Position',position);
+			property.addSample(time, position);
+	
+			//Also create a point for each sample we generate.
+			viewer.entities.add({
+				position : position,
+				point : {
+					pixelSize : 8,
+					color : Cesium.Color.TRANSPARENT,
+					outlineColor : Cesium.Color.YELLOW,
+					outlineWidth : 3
+				}
+			});
+		}
+		*/
+		var lonTmp = lon1;
+		var latTmp = lat1;
+		var i = 0.05
+		while(latTmp>lat2) {
+			console.info("latTmp",latTmp);
+			var time = Cesium.JulianDate.addSeconds(start, i, new Cesium.JulianDate());
+			var position = Cesium.Cartesian3.fromDegrees(lonTmp, latTmp, 3000);
+			latTmp-=i;
+			lonTmp+=i;
+			property.addSample(time, position);
+	
+			//Also create a point for each sample we generate.
+			viewer.entities.add({
+				position : position,
+				point : {
+					pixelSize : 8,
+					color : Cesium.Color.TRANSPARENT,
+					outlineColor : Cesium.Color.YELLOW,
+					outlineWidth : 3
+				}
+			});
+		}
+		return property;
+		
+		
+		
+	}
+	
+	function computeCirclularFlight2(lon, lat, radius) {
+		var property = new Cesium.SampledPositionProperty();
+		for (var i = 0; i <= 360; i += 30) {
+			var radians = Cesium.Math.toRadians(i);
+			var time = Cesium.JulianDate.addSeconds(start, i, new Cesium.JulianDate());
+			var position = Cesium.Cartesian3.fromDegrees(lon + (radius * 1.5 * Math.cos(radians)), lat + (radius * Math.sin(radians)), Cesium.Math.nextRandomNumber() * 500 + 1750);
+			console.info('position',position);
+			property.addSample(time, position);
+	
+			//Also create a point for each sample we generate.
+			viewer.entities.add({
+				position : position,
+				point : {
+					pixelSize : 8,
+					color : Cesium.Color.TRANSPARENT,
+					outlineColor : Cesium.Color.YELLOW,
+					outlineWidth : 3
+				}
+			});
+		}
+		console.info("property",property)
+		return property;
+	}
+	
+	//Compute the entity position property.
+	//point1 - gdansk walesa
+	//point2 - warszawa chopin				lon1		lat1	lon2		lat2
+	var position = computeCirclularFlight(18.467854, 54.379048, 20.967627, 52.167362);
+	//var position = computeCirclularFlight2(-112.110693, 36.0994841, 0.03);
+	
+	//Actually create the entity
+	var entity = viewer.entities.add({
+	
+		//Set the entity availability to the same interval as the simulation time.
+		availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
+			start : start,
+			stop : stop
+		})]),
+	
+		//Use our computed positions
+		position : position,
+	
+		//Automatically compute orientation based on position movement.
+		orientation : new Cesium.VelocityOrientationProperty(position),
+	
+		//Load the Cesium plane model to represent the entity
+		model : {
+			uri : 'SampleData/models/CesiumAir/Cesium_Air.glb',
+			minimumPixelSize : 64
+		},
+	
+		//Show the path as a pink line sampled in 1 second increments.
+		path : {
+			resolution : 1,
+			material : new Cesium.PolylineGlowMaterialProperty({
+				glowPower : 0.1,
+				color : Cesium.Color.YELLOW
+			}),
+			width : 10
+		}
+	});
+
+  </script>
+</body>
+</html>

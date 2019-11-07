@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.graulichs</groupId>
+	<artifactId>JavaScriptGeodesyLibrary</artifactId>
+	<version>1.0.3</version>
+	<packaging>jar</packaging>
+
+	<name>JavaScript Geodesy Library</name>
+	<description>JavaScript Geodesy Library for GPS (Vincenty's Formulae)</description>
+	<url>https://sites.google.com/site/javascriptgeodesylibrary</url>
+
+	<scm>
+		<connection>scm:git:git@bitbucket.org:mjusix/javascriptgeodesylibrary.git</connection>
+		<developerConnection>scm:git:git@bitbucket.org:mjusix/javascriptgeodesylibrary.git</developerConnection>
+		<url>scm:git:git@bitbucket.org:mjusix/javascriptgeodesylibrary.git</url>
+		<tag>v1.0.3</tag>
+	</scm>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License (GPL)</name>
+			<url>http://www.gnu.org/licenses/gpl.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>dominic.graulich</id>
+			<name>Dominic Graulich</name>
+			<email>dominic.graulich@googlemail.com</email>
+			<url>https://mjusix.blogspot.de</url>
+			<organization />
+			<organizationUrl />
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>Europe/Berlin</timezone>
+			<properties>
+				<picUrl>https://d3oaxc4q5k2d6q.cloudfront.net/m/a12f61cd9aa3/img/language-avatars/js_128.png</picUrl>
+			</properties>
+		</developer>
+	</developers>
+
+	<issueManagement>
+		<system>BitBucket</system>
+		<url>https://bitbucket.org/mjusix/javascriptgeodesylibrary/issues</url>
+	</issueManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+	</dependencies>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<build>
+		<!-- It's a JS maven project -->
+		<resources>
+			<resource>
+				<directory>src/main/js</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.8</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.klieber</groupId>
+				<artifactId>phantomjs-maven-plugin</artifactId>
+				<version>0.7</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<version>1.9.2</version>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.searls</groupId>
+				<artifactId>jasmine-maven-plugin</artifactId>
+				<version>1.3.1.4</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<jsSrcDir>src/main/js</jsSrcDir>
+					<jsTestSrcDir>src/test/js</jsTestSrcDir>
+					<preloadSources>
+						<source>src/main/js/app/GlobalPosition.js</source>
+						<source>src/main/js/app/Angle.js</source>
+						<source>src/main/js/app/Ellipsoid.js</source>
+						<source>src/main/js/app/GeodeticCalculator.js</source>
+						<source>src/main/js/app/GeodeticCurve.js</source>
+						<source>src/main/js/app/GeodeticMeasurement.js</source>
+						<source>src/main/js/app/GlobalCoordinates.js</source>
+					</preloadSources>
+					<webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
+					<webDriverCapabilities>
+						<capability>
+							<name>phantomjs.binary.path</name>
+							<value>${phantomjs.binary}</value>
+						</capability>
+					</webDriverCapabilities>
+					<haltOnFailure>true</haltOnFailure>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<!-- Use maven-jstools-plugin for your reports! -->
+				<groupId>gr.abiss.mvn.plugins</groupId>
+				<artifactId>maven-jstools-plugin</artifactId>
+				<version>0.7</version>
+				<configuration>
+					<jsDir>src/main/js</jsDir>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>jslint</report>
+							<report>jsdoc</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.4</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+							<report>project-team</report>
+							<report>license</report>
+							<report>issue-tracking</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+		</plugins>
+	</reporting>
+</project>

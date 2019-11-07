@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>README</title>
+		
+		<style>
+		
+			.map {
+				 position: absolute;
+				 width: 800px;
+				 height: 600px;
+				 border:#555555 2px solid;
+			}
+			
+			#results{
+				font-family: 'Courier New', Arial;
+				position: absolute;
+				left: 820px;
+			}
+		</style>
+		
+		<!-- BEGIN: Load JavaScriptGeodeticLibrary -->
+		<script src="GlobalPosition.js" ></script>
+		<script src="Angle.js" ></script>
+		<script src="Ellipsoid.js" ></script>
+		<script src="GeodeticCalculator.js" ></script>
+		<script src="GeodeticCurve.js" ></script>
+		<script src="GeodeticMeasurement.js" ></script>
+		<script src="GlobalCoordinates.js" ></script>
+		<!-- END: Load JavaScriptGeodeticLibrary -->
+		
+		<!-- Load for example BING Map API -->
+		<script charset="UTF-8" type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+		
+		<!-- BEGIN: BING Map stuff -->
+		<script type="text/javascript">
+			 var locations = [];
+
+			 function initializeMap(){
+				var center = new Microsoft.Maps.Location(50.146747, 8.561455);
+				var bingMap = new Microsoft.Maps.Map(document.getElementById('mapDiv'), {credentials:'', mapTypeId: Microsoft.Maps.MapTypeId.aerial, zoom: 0,  center: center});
+				
+				Microsoft.Maps.Events.addHandler(bingMap, 'click', function(e){
+					var point = new Microsoft.Maps.Point(e.getX(), e.getY());
+          var loc = e.target.tryPixelToLocation(point);
+          
+					if(locations.length>=2){
+						locations = [];
+						bingMap.entities.clear();
+					}
+					
+					locations[locations.length] = loc;
+					
+					var pin = new Microsoft.Maps.Pushpin(loc, {text: ''+locations.length}); 
+          bingMap.entities.push(pin);
+
+					/* Call the JavaScriptGeodeticLibrary stuff */
+					displayMeasurementInfos(locations);
+				});
+				
+			 }
+
+		</script>
+		<!-- END: BING Map stuff -->
+		
+		
+		<!-- BEGIN: JavaScriptGeodeticLibrary stuff -->
+		<script type="text/javascript">
+			 function displayMeasurementInfos(locations) {
+				var resultsElm = document.getElementById('results');
+				
+				if(locations.length<2){
+					resultsElm.innerHTML = '';
+					return;
+				}
+
+				// instantiate the calculator
+				var geoCalc = new GeodeticCalculator();
+
+				// select a reference elllipsoid
+				var reference = Ellipsoid.WGS84;
+
+				var locationA = new GlobalPosition(locations[0].latitude, locations[0].longitude, 0); /* The altitude value is fictitious */
+				var locationB = new GlobalPosition(locations[1].latitude, locations[1].longitude, 100); /* The altitude value is fictitious */
+
+				// calculate the geodetic measurement
+				var geoMeasurement = geoCalc.calculateGeodeticMeasurement(reference, locationA, locationB);
+
+				
+				resultsElm.innerHTML = '<h3>Measurement between location "1" and location "2": </h3>' + 
+															 '<pre>' +
+															 'geoMeasurement.getElevationChange():      ' + geoMeasurement.getElevationChange() + '<br />' +
+															 'geoMeasurement.getPointToPointDistance(): ' + geoMeasurement.getPointToPointDistance() + '<br />' +
+															 'geoMeasurement.getEllipsoidalDistance():  ' + geoMeasurement.getEllipsoidalDistance() + '<br />' +
+															 'geoMeasurement.getAzimuth():              ' + geoMeasurement.getAzimuth() + '<br />' +
+															 'geoMeasurement.getReverseAzimuth():       ' + geoMeasurement.getReverseAzimuth() + '<br />' +
+															 '</pre>';
+
+			}
+		</script>
+		<!-- END: JavaScriptGeodeticLibrary stuff -->
+
+</head>
+
+<body onload="initializeMap();">
+
+<h1>Example how to use the JavaScriptGeodeticLibrary</h1>
+
+<h2>Click two times on the map at different location, to get the distance between these locations.</h2>
+
+<div id="mapDiv" class="map"></div>
+
+<div id="results"></div>
+
+</body>
+</html>
