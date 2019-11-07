@@ -43,10 +43,16 @@
 	Cesium.Math.setRandomNumberSeed(3);
 	
 	//Set bounds of our simulation time
-	var duration = 720
-	var start = Cesium.JulianDate.fromDate(new Date(2015, 2, 25, 16));
-	var stop = Cesium.JulianDate.addSeconds(start, duration, new Cesium.JulianDate());
+	var duration = 720;
+	var start = Cesium.JulianDate.fromDate(new Date(2015, 2, 25, 1));
+	var stop = Cesium.JulianDate.addSeconds(start, 86400, new Cesium.JulianDate());
 	
+	// 8:45 -> 31500s od 00:00
+	var startLot1 = Cesium.JulianDate.addSeconds(start, 31500, new Cesium.JulianDate());
+	// 9:45 -> 35100s od 00:00
+	var stopLot1 = Cesium.JulianDate.addSeconds(start, 35100, new Cesium.JulianDate());
+	var duration2 = Cesium.JulianDate.secondsDifference(stopLot1,startLot1);
+	console.info('dur',duration2);
 	//Make sure viewer is at the desired time.
 	viewer.clock.startTime = start.clone();
 	viewer.clock.stopTime = stop.clone();
@@ -77,31 +83,23 @@
 		
 		// calculate the geodetic measurement
 		var geoMeasurement = geoCalc.calculateGeodeticMeasurement(reference, pointStart, pointStop);
-		/*
-		console.info('ElevationChange', geoMeasurement.getElevationChange());
-		console.info('PointToPointDistance', geoMeasurement.getPointToPointDistance()/1000);
-		console.info('EllipsoidalDistance', geoMeasurement.getEllipsoidalDistance());
-		console.info('Azimuth', geoMeasurement.getAzimuth());
-		console.info('ReverseAzimuth', geoMeasurement.getReverseAzimuth());
-		*/
+		
 		var lonTmp = lon1;
 		var latTmp = lat1;
 		var i = 0.20
 		var x = latTmp-lat2
 		var y = parseInt(x/i);
-		console.info('y',y);
-		var t = parseInt(duration/y);
+		var t = parseInt(duration2/y);
 		console.info('t',t);
 		var z = 0;
+		var dontReachLat = 1;
+		var dontReachLon = 1;
+		console.info('bool',Boolean(dontReachLat));
 		while(latTmp>lat2) {
-			//console.info("latTmp",latTmp);
-			var time = Cesium.JulianDate.addSeconds(start, z, new Cesium.JulianDate());
+			var time = Cesium.JulianDate.addSeconds(startLot1, z, new Cesium.JulianDate());
+			console.info('time',time);
 			var position = Cesium.Cartesian3.fromDegrees(lonTmp, latTmp, 3000);
-			var position = Cesium.Cartesian3.fromDegrees(lonTmp, latTmp, 3000);
-			latTmp-=i;
-			lonTmp+=i;
 			property.addSample(time, position);
-			console.info('time', time);
 	
 			//Also create a point for each sample we generate.
 			viewer.entities.add({
@@ -114,34 +112,9 @@
 				}
 			});
 			z+=t;
-			
+			latTmp-=i;
+			lonTmp+=i;
 		}
-		console.info("z",z);
-		return property;
-	}
-	
-	function computeCirclularFlight2(lon, lat, radius) {
-		var property = new Cesium.SampledPositionProperty();
-		for (var i = 0; i <= 360; i += 30) {
-			var radians = Cesium.Math.toRadians(i);
-			var time = Cesium.JulianDate.addSeconds(start, i, new Cesium.JulianDate());
-			var position = Cesium.Cartesian3.fromDegrees(lon + (radius * 1.5 * Math.cos(radians)), lat + (radius * Math.sin(radians)), Cesium.Math.nextRandomNumber() * 500 + 1750);
-			//console.info('position',position);
-			property.addSample(time, position);
-			console.info('time', time);
-	
-			//Also create a point for each sample we generate.
-			viewer.entities.add({
-				position : position,
-				point : {
-					pixelSize : 8,
-					color : Cesium.Color.TRANSPARENT,
-					outlineColor : Cesium.Color.YELLOW,
-					outlineWidth : 3
-				}
-			});
-		}
-		console.info("property",property)
 		return property;
 	}
 	
@@ -150,7 +123,6 @@
 	//point2 - warszawa chopin				lon1		lat1	lon2		lat2
 	//var position = computeCirclularFlight(18.467854, 54.379048, 20.967627, 48.167362);
 	var position = computeCirclularFlight(18.467854, 54.379048, 20.967627, 52.167362);
-	//var position = computeCirclularFlight2(-112.110693, 36.0994841, 0.03);
 	
 	//Actually create the entity
 	var entity = viewer.entities.add({
