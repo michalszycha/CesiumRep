@@ -26,27 +26,58 @@
 <body>
   <div id="cesiumContainer"></div>
   <script>
-	var viewer = new Cesium.Viewer('cesiumContainer', {
+
+  //Definicja klasy lotow z Gdanska do Warszawy
+  class GdnToWaw {
+    constructor(wylot, przylot, numer_lotu) {
+      this.wylot = wylot;
+      this.przylot = przylot;
+      this.numer_lotu = numer_lotu;
+    }
+  }
+
+  //Stworzenie obiektow konkretnych lotow klasy Gdansk - Warszawa
+  gdnwaw1 = new GdnToWaw(31500,35100,'LO3832') //8:45 - 09:45
+  gdnwaw2 = new GdnToWaw(43500,47100,'LO3836') //12:05 - 13:05
+  gdnwaw3 = new GdnToWaw(65400,69300,'LO3816') //18:10 - 19:15
+
+
+  //Definicja klasy lotow z Warszawy do Gdanska
+  class WawToGdn {
+    constructor(wylot, przylot, numer_lotu) {
+      this.wylot = wylot;
+      this.przylot = przylot;
+      this.numer_lotu = numer_lotu;
+    }
+  }
+
+  //Stworzenie obiektow konkretnych lotow klasy Warszawa - Gdansk
+  wawgdn1 = new WawToGdn(26100,29700,'LO3831') //7:15 - 08:15
+  wawgdn2 = new WawToGdn(48000,51300,'LO3937') //13:20 - 14:15
+  wawgdn3 = new WawToGdn(70800,74100,'LO3825') //19:40 - 20:35
+
+
+  var viewer = new Cesium.Viewer('cesiumContainer', {
     infoBox: false, //Disable InfoBox widget
     selectionIndicator: false, //Disable selection indicator
     shouldAnimate: true, // Enable animations
     terrainProvider: Cesium.createWorldTerrain()
 	});
-	
+
 	//Enable lighting based on sun/moon positions
 	viewer.scene.globe.enableLighting = true;
-	
+
 	//Enable depth testing so things behind the terrain disappear.
 	viewer.scene.globe.depthTestAgainstTerrain = true;
-	
+
 	//Set the random number seed for consistent results.
 	Cesium.Math.setRandomNumberSeed(3);
-	
+
 	//Set bounds of our simulation time
 	var duration = 720;
 	var start = Cesium.JulianDate.fromDate(new Date(2015, 2, 25, 1));
 	var stop = Cesium.JulianDate.addSeconds(start, 86400, new Cesium.JulianDate());
-	
+
 	// 8:45 -> 31500s od 00:00
 	var startLot1 = Cesium.JulianDate.addSeconds(start, 31500, new Cesium.JulianDate());
 	// 9:45 -> 35100s od 00:00
@@ -59,31 +90,31 @@
 	viewer.clock.currentTime = start.clone();
 	viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; //Loop at the end
 	viewer.clock.multiplier = 10;
-	
+
 	//Set timeline to simulation bounds
 	viewer.timeline.zoomTo(start, stop);
-	
+
 	//Generate a random circular pattern with varying heights.
 	//function computeCirclularFlight(lon, lat, radius) {
 	function computeCirclularFlight(lon1, lat1, lon2, lat2) {
 		var property = new Cesium.SampledPositionProperty();
-		
+
 		//funkcje z biblioteki GeodesyLibrary
 		// instantiate the calculator
 		var geoCalc = new GeodeticCalculator();
-		
+
 		// select a reference elllipsoid
 		var reference = Ellipsoid.WGS84;
-		
+
 		// set Pike's Peak position
 		var pointStart = new GlobalPosition(lat1, lon1, 50.0);
-		
+
 		// set Alcatraz Island coordinates
 		var pointStop = new GlobalPosition(lat2, lon2, 47.0);
-		
+
 		// calculate the geodetic measurement
 		var geoMeasurement = geoCalc.calculateGeodeticMeasurement(reference, pointStart, pointStop);
-		
+
 		var lonTmp = lon1;
 		var latTmp = lat1;
 		var i = 0.20
@@ -100,7 +131,7 @@
 			console.info('time',time);
 			var position = Cesium.Cartesian3.fromDegrees(lonTmp, latTmp, 3000);
 			property.addSample(time, position);
-	
+
 			//Also create a point for each sample we generate.
 			viewer.entities.add({
 				position : position,
@@ -117,34 +148,34 @@
 		}
 		return property;
 	}
-	
+
 	//Compute the entity position property.
 	//point1 - gdansk walesa
 	//point2 - warszawa chopin				lon1		lat1	lon2		lat2
 	//var position = computeCirclularFlight(18.467854, 54.379048, 20.967627, 48.167362);
 	var position = computeCirclularFlight(18.467854, 54.379048, 20.967627, 52.167362);
-	
+
 	//Actually create the entity
 	var entity = viewer.entities.add({
-	
+
 		//Set the entity availability to the same interval as the simulation time.
 		availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
 			start : start,
 			stop : stop
 		})]),
-	
+
 		//Use our computed positions
 		position : position,
-	
+
 		//Automatically compute orientation based on position movement.
 		orientation : new Cesium.VelocityOrientationProperty(position),
-	
+
 		//Load the Cesium plane model to represent the entity
 		model : {
 			uri : 'SampleData/models/CesiumAir/Cesium_Air.glb',
 			minimumPixelSize : 64
 		},
-	
+
 		//Show the path as a pink line sampled in 1 second increments.
 		path : {
 			resolution : 1,
