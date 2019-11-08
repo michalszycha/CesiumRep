@@ -27,6 +27,20 @@
   <div id="cesiumContainer"></div>
   <script>
 
+  //Definicja klasy wspolrzednych pasow startowych
+  class PasyStartowe {
+    constructor(start_lat, start_long, koniec_lat, koniec_long){
+      this.start_lat = start_lat;
+      this.start_long = start_long;
+      this.koniec_lat = koniec_lat;
+      this.koniec_long = koniec_long;
+    }
+  }
+  //Stworzenie obiektów konkretnych pasów startowych
+  gdansk_pas1 = new PasyStartowe(54.380887, 18.452738, 54.371910, 18.489267);
+  warszawa_pas1 = new PasyStartowe(52.177143, 20.957177, 52.155907, 20.975687);1
+
+
   //Definicja klasy lotow z Gdanska do Warszawy
   class GdnToWaw {
     constructor(wylot, przylot, numer_lotu) {
@@ -37,9 +51,9 @@
   }
 
   //Stworzenie obiektow konkretnych lotow klasy Gdansk - Warszawa
-  gdnwaw1 = new GdnToWaw(31500,35100,'LO3832') //8:45 - 09:45
-  gdnwaw2 = new GdnToWaw(43500,47100,'LO3836') //12:05 - 13:05
-  gdnwaw3 = new GdnToWaw(65400,69300,'LO3816') //18:10 - 19:15
+  gdnwaw1 = new GdnToWaw(31500,35100,'LO3832'); //8:45 - 09:45
+  gdnwaw2 = new GdnToWaw(43500,47100,'LO3836'); //12:05 - 13:05
+  gdnwaw3 = new GdnToWaw(65400,69300,'LO3816'); //18:10 - 19:15
 
 
   //Definicja klasy lotow z Warszawy do Gdanska
@@ -52,9 +66,9 @@
   }
 
   //Stworzenie obiektow konkretnych lotow klasy Warszawa - Gdansk
-  wawgdn1 = new WawToGdn(26100,29700,'LO3831') //7:15 - 08:15
-  wawgdn2 = new WawToGdn(48000,51300,'LO3937') //13:20 - 14:15
-  wawgdn3 = new WawToGdn(70800,74100,'LO3825') //19:40 - 20:35
+  wawgdn1 = new WawToGdn(26100,29700,'LO3831'); //7:15 - 08:15
+  wawgdn2 = new WawToGdn(48000,51300,'LO3937'); //13:20 - 14:15
+  wawgdn3 = new WawToGdn(70800,74100,'LO3825'); //19:40 - 20:35
 
 
   var viewer = new Cesium.Viewer('cesiumContainer', {
