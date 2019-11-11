@@ -19,11 +19,7 @@
 <body>
   <div id="cesiumContainer">
 
-    <div id="buttonContainer" style="position:absolute;left:2px;top:2px;
-z-index:1;">
-<button onclick="obserwuj_samolot()" class="cesiumbutton">
-Obserwuj samolot</button>
-</div>
+
 
 <div id="buttonContainer" style="position:absolute; left:2px; top:25px;
 z-index:1;">
@@ -52,19 +48,34 @@ z-index:1;">
 <div id="buttonContainer" style="position:absolute; left:2px; top:150px;
 z-index:1;">
 <button onclick="ukryj_lot_GDN_WAW1()" class="cesiumbutton">
-Ukryj lot LO3831</button>
+Ukryj/pokaz lot LO3832</button>
 </div>
 <div id="buttonContainer" style="position:absolute; left:2px; top:173px;
 z-index:1;">
 <button onclick="ukryj_lot_GDN_WAW2()" class="cesiumbutton">
-Ukryj lot LO3836</button>
+Ukryj/pokaz lot LO3836</button>
 </div>
 <div id="buttonContainer" style="position:absolute; left:2px; top:196px;
 z-index:1;">
 <button onclick="ukryj_lot_GDN_WAW3()" class="cesiumbutton">
-Ukryj lot LO3816</button>
+Ukryj/pokaz lot LO3816</button>
 </div>
 
+<div id="buttonContainer" style="position:absolute;left:2px;top:250px;
+z-index:1;">
+<button onclick="obserwuj_lot_GDN_WAW1()" class="cesiumbutton">
+Obserwuj samolot LO3832</button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:2px;top:273px;
+z-index:1;">
+<button onclick="obserwuj_lot_GDN_WAW2()" class="cesiumbutton">
+Obserwuj samolot LO3836</button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:2px;top:296px;
+z-index:1;">
+<button onclick="obserwuj_lot_GDN_WAW3()" class="cesiumbutton">
+Obserwuj samolot LO3816</button>
+</div>
 
 </div>
 
@@ -137,8 +148,36 @@ Ukryj lot LO3816</button>
 	wawgdn2 = new WawToGdn(48000,51300,'LO3937'); //13:20 - 14:15
 	wawgdn3 = new WawToGdn(70800,74100,'LO3825'); //19:40 - 20:35
 	
-	function obserwuj_samolot() {
-		viewer.trackedEntity = entity;
+	var track_gdnwaw1 = true;
+	var track_gdnwaw2 = true;
+	var track_gdnwaw3 = true;
+	//funkcje do śledzenia konkretnych lotów
+	function obserwuj_lot_GDN_WAW1() {
+		if(track_gdnwaw1) {
+			viewer.trackedEntity = viewer.entities.getById('LO3832');
+		}
+		else {
+			viewer.trackedEntity = undefined;
+		}
+		track_gdnwaw1 = !track_gdnwaw1;
+	}
+	function obserwuj_lot_GDN_WAW2() {
+		if(track_gdnwaw2) {
+			viewer.trackedEntity = viewer.entities.getById('LO3836');
+		}
+		else {
+			viewer.trackedEntity = undefined;
+		}
+		track_gdnwaw2 = !track_gdnwaw2;
+	}
+	function obserwuj_lot_GDN_WAW3() {
+		if(track_gdnwaw3) {
+			viewer.trackedEntity = viewer.entities.getById('LO3816');
+		}
+		else {
+			viewer.trackedEntity = undefined;
+		}
+		track_gdnwaw3 = !track_gdnwaw3;
 	}
 	
 	function patrz_z_gory() {
@@ -189,8 +228,9 @@ Ukryj lot LO3816</button>
 	return property
 	}
 
-	function stworz_entity(lot,id) {
+	function stworz_entity(lot,id,nr_lotu) {
 		entities.add({
+		id: nr_lotu,
 		parent: id,
 		//Set the entity availability to the same interval as the simulation time.
 		availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
@@ -231,7 +271,6 @@ Ukryj lot LO3816</button>
 		viewer.clock.currentTime = start.clone();
 		viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; //Loop at the end
 		viewer.clock.multiplier = 10;
-		//console.info("zmiana", czas_start.zwroc_czas());
 	}
 	
 	//funkcje do pokazywania/ukrywania poszczególnych lotów
@@ -300,7 +339,7 @@ Ukryj lot LO3816</button>
 		var id = gdnwaw[i].numer_lotu;
 		id = entities.add(new Cesium.Entity());
 		id_tab[i] = id;
-		stworz_entity(pozycje_loty_GDN_WAW[i], id);
+		stworz_entity(pozycje_loty_GDN_WAW[i], id, gdnwaw[i].numer_lotu);
 	}
 
   </script>
