@@ -31,10 +31,22 @@ z-index:1;">
 Patrz z góry</button>
 </div>
 
-<div id="buttonContainer" style="position:absolute; left:2px; top:50px;
+<div id="buttonContainer" style="position:absolute; left:2px; top:48px;
 z-index:1;">
-<button onclick="zmien_czas(2019,5,5,5)" class="cesiumbutton">
-Zmien czas</button>
+<button onclick="zmien_czas(2019,5,5,5+2)" class="cesiumbutton">
+5. czerwiec 2019</button>
+</div>
+
+<div id="buttonContainer" style="position:absolute; left:2px; top:71px;
+z-index:1;">
+<button onclick="zmien_czas(2018,8,29,9+2)" class="cesiumbutton">
+29. wrzesień 2018</button>
+</div>
+
+<div id="buttonContainer" style="position:absolute; left:2px; top:94px;
+z-index:1;">
+<button onclick="zmien_czas(2017,1,18,12+2)" class="cesiumbutton">
+18. luty 2017</button>
 </div>
 
 
@@ -174,7 +186,6 @@ Zmien czas</button>
 			uri : 'SampleData/models/CesiumAir/Cesium_Air.glb',
 			minimumPixelSize : 64
 		},
-
 		//Show the path as a pink line sampled in 1 second increments.
 		path : {
 			resolution : 1,
@@ -250,7 +261,7 @@ Zmien czas</button>
 	
 	//dodanie do entity trasy dla każdego z lotów z tablicy
 	for (var i=0; i<3; i++) {
-		stworz_entity(loty_GDN_WAW[i]);
+		var cos = stworz_entity(loty_GDN_WAW[i]);
 		//stworz_entity(loty_WAW_GDN[i]);
 	}
 
