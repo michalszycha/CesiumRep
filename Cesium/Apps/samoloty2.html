@@ -49,6 +49,22 @@ z-index:1;">
 18. luty 2017</button>
 </div>
 
+<div id="buttonContainer" style="position:absolute; left:2px; top:150px;
+z-index:1;">
+<button onclick="ukryj_lot_GDN_WAW1()" class="cesiumbutton">
+Ukryj lot LO3831</button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:2px; top:173px;
+z-index:1;">
+<button onclick="ukryj_lot_GDN_WAW2()" class="cesiumbutton">
+Ukryj lot LO3836</button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:2px; top:196px;
+z-index:1;">
+<button onclick="ukryj_lot_GDN_WAW3()" class="cesiumbutton">
+Ukryj lot LO3816</button>
+</div>
+
 
 </div>
 
@@ -99,6 +115,12 @@ z-index:1;">
 	gdnwaw1 = new GdnToWaw(31500,35100,'LO3832'); //8:45 - 09:45
 	gdnwaw2 = new GdnToWaw(43500,47100,'LO3836'); //12:05 - 13:05
 	gdnwaw3 = new GdnToWaw(65400,69300,'LO3816'); //18:10 - 19:15
+	
+	//tabilca z lotami Gdansk - Warszawa
+	var gdnwaw = [];
+	gdnwaw[0] = gdnwaw1;
+	gdnwaw[1] = gdnwaw2;
+	gdnwaw[2] = gdnwaw3;
 	
 	
 	//Definicja klasy lotow z Warszawy do Gdanska
@@ -167,8 +189,9 @@ z-index:1;">
 	return property
 	}
 
-	function stworz_entity(lot) {
-		var entity = viewer.entities.add({
+	function stworz_entity(lot,id) {
+		entities.add({
+		parent: id,
 		//Set the entity availability to the same interval as the simulation time.
 		availability : new Cesium.TimeIntervalCollection([new Cesium.TimeInterval({
 			start : start,
@@ -210,6 +233,17 @@ z-index:1;">
 		viewer.clock.multiplier = 10;
 		//console.info("zmiana", czas_start.zwroc_czas());
 	}
+	
+	//funkcje do pokazywania/ukrywania poszczególnych lotów
+	function ukryj_lot_GDN_WAW1() {
+		id_tab[0].show = !id_tab[0].show;
+	}
+	function ukryj_lot_GDN_WAW2() {
+		id_tab[1].show = !id_tab[1].show;
+	}
+	function ukryj_lot_GDN_WAW3() {
+		id_tab[2].show = !id_tab[2].show;
+	}
 
 	var viewer = new Cesium.Viewer('cesiumContainer', {
     infoBox: false, //Disable InfoBox widget
@@ -217,6 +251,7 @@ z-index:1;">
     shouldAnimate: true, // Enable animations
     terrainProvider: Cesium.createWorldTerrain()
 	});
+	var entities = viewer.entities;
 
 	//Enable lighting based on sun/moon positions
 	viewer.scene.globe.enableLighting = true;
@@ -238,16 +273,16 @@ z-index:1;">
 	//Set timeline to simulation bounds
 	viewer.timeline.zoomTo(start, stop);
 	
-	//tablice lotów
-	var loty_GDN_WAW = [];
-	var loty_WAW_GDN = [];
+	//tablice z trasami lotów
+	var pozycje_loty_GDN_WAW = [];
+	var pozycje_loty_WAW_GDN = [];
 	//oblicz trase z nowej funkcji z gdanska do warszawy
 	var position_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw1.wylot,gdnwaw1.przylot);
 	var position2_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw2.wylot,gdnwaw2.przylot);
 	var position3_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw3.wylot,gdnwaw3.przylot);
-	loty_GDN_WAW[0] = position_GDN_WAW;
-	loty_GDN_WAW[1] = position2_GDN_WAW;
-	loty_GDN_WAW[2] = position3_GDN_WAW;
+	pozycje_loty_GDN_WAW[0] = position_GDN_WAW;
+	pozycje_loty_GDN_WAW[1] = position2_GDN_WAW;
+	pozycje_loty_GDN_WAW[2] = position3_GDN_WAW;
 	
 	//oblicz trase z nowej funkcji z Warszawy do Gdańska
 	/*
@@ -259,10 +294,13 @@ z-index:1;">
 	loty_WAW_GDN[2] = position3_WAW_GDN;
 	*/
 	
-	//dodanie do entity trasy dla każdego z lotów z tablicy
+	//dodanie do entity trasy dla każdego z lotów z tablicy pozycje_loty_GDN_WAW
+	var id_tab = [];
 	for (var i=0; i<3; i++) {
-		var cos = stworz_entity(loty_GDN_WAW[i]);
-		//stworz_entity(loty_WAW_GDN[i]);
+		var id = gdnwaw[i].numer_lotu;
+		id = entities.add(new Cesium.Entity());
+		id_tab[i] = id;
+		stworz_entity(pozycje_loty_GDN_WAW[i], id);
 	}
 
   </script>
