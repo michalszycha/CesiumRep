@@ -21,7 +21,7 @@
 
 
 
-<div id="buttonContainer" style="position:absolute; left:2px; top:25px;
+<div id="buttonContainer1" style="position:absolute; left:2px; top:25px;
 z-index:1;">
 <button onclick="patrz_z_gory()" class="cesiumbutton">
 Patrz z góry</button>
@@ -47,39 +47,107 @@ z-index:1;">
 
 <div id="buttonContainer" style="position:absolute; left:2px; top:150px;
 z-index:1;">
-<button onclick="ukryj_lot_GDN_WAW1()" class="cesiumbutton">
-Ukryj/pokaz lot LO3832</button>
+<button id="button_ukryj_GDN_WAW0" onclick="ukryj_lot(0, 1)" class="cesiumbutton"></button>
 </div>
 <div id="buttonContainer" style="position:absolute; left:2px; top:173px;
 z-index:1;">
-<button onclick="ukryj_lot_GDN_WAW2()" class="cesiumbutton">
-Ukryj/pokaz lot LO3836</button>
+<button id="button_ukryj_GDN_WAW1" onclick="ukryj_lot(1, 1)" class="cesiumbutton"></button>
 </div>
 <div id="buttonContainer" style="position:absolute; left:2px; top:196px;
 z-index:1;">
-<button onclick="ukryj_lot_GDN_WAW3()" class="cesiumbutton">
-Ukryj/pokaz lot LO3816</button>
+<button id="button_ukryj_GDN_WAW2" onclick="ukryj_lot(2, 1)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:2px; top:219px;
+z-index:1;">
+<button id="button_ukryj_GDN_WAW3" onclick="ukryj_lot(3, 1)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:2px; top:242px;
+z-index:1;">
+<button id="button_ukryj_GDN_WAW4" onclick="ukryj_lot(4, 1)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:2px; top:265px;
+z-index:1;">
+<button id="button_ukryj_GDN_WAW5" onclick="ukryj_lot(5, 1)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:125px; top:150px;
+z-index:1;">
+<button id="button_ukryj_WAW_GDN0" onclick="ukryj_lot(0, 0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:125px; top:173px;
+z-index:1;">
+<button id="button_ukryj_WAW_GDN1" onclick="ukryj_lot(1, 0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:125px; top:196px;
+z-index:1;">
+<button id="button_ukryj_WAW_GDN2" onclick="ukryj_lot(2, 0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:125px; top:219px;
+z-index:1;">
+<button id="button_ukryj_WAW_GDN3" onclick="ukryj_lot(3, 0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:125px; top:242px;
+z-index:1;">
+<button id="button_ukryj_WAW_GDN4" onclick="ukryj_lot(4, 0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute; left:125px; top:265px;
+z-index:1;">
+<button id="button_ukryj_WAW_GDN5" onclick="ukryj_lot(5, 0)" class="cesiumbutton"></button>
 </div>
 
-<div id="buttonContainer" style="position:absolute;left:2px;top:250px;
+<div id="buttonContainer" style="position:absolute;left:2px;top:300px;
 z-index:1;">
-<button onclick="obserwuj_lot_GDN_WAW1()" class="cesiumbutton">
-Obserwuj samolot LO3832</button>
+<button id="button_obserwuj_GDN_WAW0" onclick="obserwuj_lot(0,1)" class="cesiumbutton"></button>
 </div>
-<div id="buttonContainer" style="position:absolute;left:2px;top:273px;
+<div id="buttonContainer" style="position:absolute;left:2px;top:323px;
 z-index:1;">
-<button onclick="obserwuj_lot_GDN_WAW2()" class="cesiumbutton">
-Obserwuj samolot LO3836</button>
+<button id="button_obserwuj_GDN_WAW1" onclick="obserwuj_lot(1,1)" class="cesiumbutton"></button>
 </div>
-<div id="buttonContainer" style="position:absolute;left:2px;top:296px;
+<div id="buttonContainer" style="position:absolute;left:2px;top:346px;
 z-index:1;">
-<button onclick="obserwuj_lot_GDN_WAW3()" class="cesiumbutton">
-Obserwuj samolot LO3816</button>
+<button id="button_obserwuj_GDN_WAW2" onclick="obserwuj_lot(2,1)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:2px;top:369px;
+z-index:1;">
+<button id="button_obserwuj_GDN_WAW3" onclick="obserwuj_lot(3,1)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:2px;top:392px;
+z-index:1;">
+<button id="button_obserwuj_GDN_WAW4" onclick="obserwuj_lot(4,1)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:2px;top:415px;
+z-index:1;">
+<button id="button_obserwuj_GDN_WAW5" onclick="obserwuj_lot(5,1)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:150px;top:300px;
+z-index:1;">
+<button id="button_obserwuj_WAW_GDN0" onclick="obserwuj_lot(0,0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:150px;top:323px;
+z-index:1;">
+<button id="button_obserwuj_WAW_GDN1" onclick="obserwuj_lot(1,0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:150px;top:346px;
+z-index:1;">
+<button id="button_obserwuj_WAW_GDN2" onclick="obserwuj_lot(2,0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:150px;top:369px;
+z-index:1;">
+<button id="button_obserwuj_WAW_GDN3" onclick="obserwuj_lot(3,0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:150px;top:392px;
+z-index:1;">
+<button id="button_obserwuj_WAW_GDN4" onclick="obserwuj_lot(4,0)" class="cesiumbutton"></button>
+</div>
+<div id="buttonContainer" style="position:absolute;left:150px;top:415px;
+z-index:1;">
+<button id="button_obserwuj_WAW_GDN5" onclick="obserwuj_lot(5,0)" class="cesiumbutton"></button>
 </div>
 
 </div>
 
   <script>
+  
+	
 
 	//var domyslny_czas = Cesium.JulianDate.fromDate(new Date(2019, 10, 11, 1));
 	//console.info("domyslny", domyslny_czas);
@@ -114,95 +182,138 @@ Obserwuj samolot LO3816</button>
 
 	//Definicja klasy lotow z Gdanska do Warszawy
 	class GdnToWaw {
-		constructor(wylot, przylot, numer_lotu) {
+		constructor(wylot, przylot, numer_lotu, obserwuj) {
 		this.wylot = wylot;
 		this.przylot = przylot;
 		this.numer_lotu = numer_lotu;
+		this.obserwuj = obserwuj;
 		}
 
 	}
 
 	//Stworzenie obiektow konkretnych lotow klasy Gdansk - Warszawa
-  gdnwaw1 = new GdnToWaw(19800, 23700, 'LO3828'); //05:30 - 06:35
-  gdnwaw2 = new GdnToWaw(31500, 35100, 'LO3832'); //08:45 - 09:45
-	gdnwaw3 = new GdnToWaw(43500, 47100, 'LO3836'); //12:05 - 13:05
-  gdnwaw4 = new GdnToWaw(53700, 57300, 'LO3838'); //14:55 - 15:55
-	gdnwaw5 = new GdnToWaw(65400, 69300, 'LO3816'); //18:10 - 19:15
-  gdnwaw6 = new GdnToWaw(75900, 79500, 'LO3826'); //21:05 - 22:05
+	gdnwaw1 = new GdnToWaw(19800, 23700, 'LO3828', true); //05:30 - 06:35
+	gdnwaw2 = new GdnToWaw(31500, 35100, 'LO3832', true); //08:45 - 09:45
+	gdnwaw3 = new GdnToWaw(43500, 47100, 'LO3836', true); //12:05 - 13:05
+	gdnwaw4 = new GdnToWaw(53700, 57300, 'LO3838', true); //14:55 - 15:55
+	gdnwaw5 = new GdnToWaw(65400, 69300, 'LO3816', true); //18:10 - 19:15
+	gdnwaw6 = new GdnToWaw(75900, 79500, 'LO3826', true); //21:05 - 22:05
 
 	//tabilca z lotami Gdansk - Warszawa
 	var gdnwaw = [];
 	gdnwaw[0] = gdnwaw1;
 	gdnwaw[1] = gdnwaw2;
 	gdnwaw[2] = gdnwaw3;
-  gdnwaw[3] = gdnwaw4;
-  gdnwaw[4] = gdnwaw5;
-  gdnwaw[5] = gdnwaw6;
+	gdnwaw[3] = gdnwaw4;
+	gdnwaw[4] = gdnwaw5;
+	gdnwaw[5] = gdnwaw6;
 
 
 	//Definicja klasy lotow z Warszawy do Gdanska
 	class WawToGdn {
-		constructor(wylot, przylot, numer_lotu) {
+		constructor(wylot, przylot, numer_lotu, obserwuj) {
 		this.wylot = wylot;
 		this.przylot = przylot;
 		this.numer_lotu = numer_lotu;
+		this.obserwuj = obserwuj;
 		}
 	}
 
 	//Stworzenie obiektow konkretnych lotow klasy Warszawa - Gdansk
-	wawgdn1 = new WawToGdn(26100, 29700, 'LO3831'); //07:15 - 08:15
-  wawgdn2 = new WawToGdn(38100, 41700, 'LO3835'); //10:35 - 11:35
-	wawgdn3 = new WawToGdn(48000, 51300, 'LO3837'); //13:20 - 14:15
-  wawgdn4 = new WawToGdn(59400, 63000, 'LO3815'); //16:30 - 17:30
-	wawgdn5 = new WawToGdn(70800, 74100, 'LO3825'); //19:40 - 20:35
-  wawgdn6 = new WawToGdn(81300, 84900, 'LO3827'); //22:35 - 23:35
+	wawgdn1 = new WawToGdn(26100, 29700, 'LO3831', true); //07:15 - 08:15
+	wawgdn2 = new WawToGdn(38100, 41700, 'LO3835', true); //10:35 - 11:35
+	wawgdn3 = new WawToGdn(48000, 51300, 'LO3837', true); //13:20 - 14:15
+	wawgdn4 = new WawToGdn(59400, 63000, 'LO3815', true); //16:30 - 17:30
+	wawgdn5 = new WawToGdn(70800, 74100, 'LO3825', true); //19:40 - 20:35
+	wawgdn6 = new WawToGdn(81300, 84900, 'LO3827', true); //22:35 - 23:35
 
-  //tabilca z lotami Warszawa - Gdansk
-  var wawgdn = [];
-  wawgdn[0] = wawgdn1;
+	//tabilca z lotami Warszawa - Gdansk
+	var wawgdn = [];
+	wawgdn[0] = wawgdn1;
 	wawgdn[1] = wawgdn2;
 	wawgdn[2] = wawgdn3;
-  wawgdn[3] = wawgdn4;
-  wawgdn[4] = wawgdn5;
-  wawgdn[5] = wawgdn6;
-
-	var track_gdnwaw1 = true;
-	var track_gdnwaw2 = true;
-	var track_gdnwaw3 = true;
-	//funkcje do śledzenia konkretnych lotów
-	function obserwuj_lot_GDN_WAW1() {
-		if(track_gdnwaw1) {
-			viewer.trackedEntity = viewer.entities.getById('LO3832');
-		}
-		else {
-			viewer.trackedEntity = undefined;
-		}
-		track_gdnwaw1 = !track_gdnwaw1;
+	wawgdn[3] = wawgdn4;
+	wawgdn[4] = wawgdn5;
+	wawgdn[5] = wawgdn6;
+	
+	//uzupelnianie podpisow przyciskow
+	for (var i=0;i<6;i++) {
+		var id_button = "button_ukryj_GDN_WAW"+i;
+		var x = document.getElementById(id_button);
+		x.textContent = "Ukryj lot " + gdnwaw[i].numer_lotu;
 	}
-	function obserwuj_lot_GDN_WAW2() {
-		if(track_gdnwaw2) {
-			viewer.trackedEntity = viewer.entities.getById('LO3836');
-		}
-		else {
-			viewer.trackedEntity = undefined;
-		}
-		track_gdnwaw2 = !track_gdnwaw2;
+	for (var i=0;i<6;i++) {
+		var id_button = "button_ukryj_WAW_GDN"+i;
+		var x = document.getElementById(id_button);
+		x.textContent = "Ukryj lot " + wawgdn[i].numer_lotu;
 	}
-	function obserwuj_lot_GDN_WAW3() {
-		if(track_gdnwaw3) {
-			viewer.trackedEntity = viewer.entities.getById('LO3816');
+	for (var i=0;i<6;i++) {
+		var id_button = "button_obserwuj_GDN_WAW"+i;
+		var x = document.getElementById(id_button);
+		x.textContent = "Obserwuj lot " + gdnwaw[i].numer_lotu;
+	}
+	for (var i=0;i<6;i++) {
+		var id_button = "button_obserwuj_WAW_GDN"+i;
+		var x = document.getElementById(id_button);
+		x.textContent = "Obserwuj lot " + wawgdn[i].numer_lotu;
+	}
+	
+	//funkcja do sledzenia lotow
+	function obserwuj_lot(i,kierunek) {
+		if(kierunek) {
+			if(gdnwaw[i].obserwuj) {
+			viewer.trackedEntity = viewer.entities.getById(gdnwaw[i].numer_lotu);
+			}
+			else {
+				viewer.trackedEntity = undefined;
+			}
+			gdnwaw[i].obserwuj = !gdnwaw[i].obserwuj;
 		}
 		else {
-			viewer.trackedEntity = undefined;
+			if(wawgdn[i].obserwuj) {
+			viewer.trackedEntity = viewer.entities.getById(wawgdn[i].numer_lotu);
+			}
+			else {
+				viewer.trackedEntity = undefined;
+			}
+			wawgdn[i].obserwuj = !wawgdn[i].obserwuj;
 		}
-		track_gdnwaw3 = !track_gdnwaw3;
 	}
 
 	function patrz_z_gory() {
 		viewer.trackedEntity = undefined;
 		viewer.zoomTo(viewer.entities, new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90)));
 	}
-
+	
+	//funkcja do ukrywania/pokazywania lotow
+	function ukryj_lot(i,kierunek) {
+		if(kierunek) {
+			var ukryj_tekst = "Ukryj lot "+gdnwaw[i].numer_lotu;
+			var pokaz_tekst = "Pokaz lot "+gdnwaw[i].numer_lotu;
+			var id_button = "button_ukryj_GDN_WAW"+i;
+			var x = document.getElementById(id_button);
+			id_tab_GDN_WAW[i].show = !id_tab_GDN_WAW[i].show;
+			if(id_tab_GDN_WAW[i].show) {
+				x.textContent = ukryj_tekst;
+			}
+			else {
+				x.textContent = pokaz_tekst;
+			}
+		}
+		else {
+			var ukryj_tekst = "Ukryj lot "+wawgdn[i].numer_lotu;
+			var pokaz_tekst = "Pokaz lot "+wawgdn[i].numer_lotu;
+			var id_button = "button_ukryj_WAW_GDN"+i;
+			var x = document.getElementById(id_button);
+			id_tab_WAW_GDN[i].show = !id_tab_WAW_GDN[i].show;
+			if(id_tab_GDN_WAW[i].show) {
+				x.textContent = ukryj_tekst;
+			}
+			else {
+				x.textContent = pokaz_tekst;
+			}
+		}
+	}
 
 	//definicja funkcji zwracającej sciezke lotu samolotu z Gdanska do Warszawy
 	//przekazywane parametry to wlasciwosci obiektow klasy GdnToWaw (wylot,przylot)
@@ -335,16 +446,7 @@ Obserwuj samolot LO3816</button>
 		viewer.clock.multiplier = 10;
 	}
 
-	//funkcje do pokazywania/ukrywania poszczególnych lotów
-	function ukryj_lot_GDN_WAW1() {
-		id_tab[0].show = !id_tab[0].show;
-	}
-	function ukryj_lot_GDN_WAW2() {
-		id_tab[1].show = !id_tab[1].show;
-	}
-	function ukryj_lot_GDN_WAW3() {
-		id_tab[2].show = !id_tab[2].show;
-	}
+	
 
 	var viewer = new Cesium.Viewer('cesiumContainer', {
     infoBox: false, //Disable InfoBox widget
@@ -381,27 +483,47 @@ Obserwuj samolot LO3816</button>
 	var position_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw1.wylot,gdnwaw1.przylot);
 	var position2_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw2.wylot,gdnwaw2.przylot);
 	var position3_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw3.wylot,gdnwaw3.przylot);
+	var position4_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw4.wylot,gdnwaw4.przylot);
+	var position5_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw5.wylot,gdnwaw5.przylot);
+	var position6_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw6.wylot,gdnwaw6.przylot);
 	pozycje_loty_GDN_WAW[0] = position_GDN_WAW;
 	pozycje_loty_GDN_WAW[1] = position2_GDN_WAW;
 	pozycje_loty_GDN_WAW[2] = position3_GDN_WAW;
+	pozycje_loty_GDN_WAW[3] = position4_GDN_WAW;
+	pozycje_loty_GDN_WAW[4] = position5_GDN_WAW;
+	pozycje_loty_GDN_WAW[5] = position6_GDN_WAW;
 
 	//oblicz trase z nowej funkcji z Warszawy do Gdańska
-	/*
+	
 	var position_WAW_GDN = generuj_trase_WAW_GDN(wawgdn1.wylot,wawgdn1.przylot);
 	var position2_WAW_GDN = generuj_trase_WAW_GDN(wawgdn2.wylot,wawgdn2.przylot);
 	var position3_WAW_GDN = generuj_trase_WAW_GDN(wawgdn3.wylot,wawgdn3.przylot);
-	loty_WAW_GDN[0] = position_WAW_GDN;
-	loty_WAW_GDN[1] = position2_WAW_GDN;
-	loty_WAW_GDN[2] = position3_WAW_GDN;
-	*/
+	var position4_WAW_GDN = generuj_trase_WAW_GDN(wawgdn4.wylot,wawgdn4.przylot);
+	var position5_WAW_GDN = generuj_trase_WAW_GDN(wawgdn5.wylot,wawgdn5.przylot);
+	var position6_WAW_GDN = generuj_trase_WAW_GDN(wawgdn6.wylot,wawgdn6.przylot);
+	pozycje_loty_WAW_GDN[0] = position_WAW_GDN;
+	pozycje_loty_WAW_GDN[1] = position2_WAW_GDN;
+	pozycje_loty_WAW_GDN[2] = position3_WAW_GDN;
+	pozycje_loty_WAW_GDN[3] = position4_WAW_GDN;
+	pozycje_loty_WAW_GDN[4] = position5_WAW_GDN;
+	pozycje_loty_WAW_GDN[5] = position6_WAW_GDN;
+	
 
 	//dodanie do entity trasy dla każdego z lotów z tablicy pozycje_loty_GDN_WAW
-	var id_tab = [];
-	for (var i=0; i<3; i++) {
+	var id_tab_GDN_WAW = [];
+	for (var i=0; i<6; i++) {
 		var id = gdnwaw[i].numer_lotu;
 		id = entities.add(new Cesium.Entity());
-		id_tab[i] = id;
+		id_tab_GDN_WAW[i] = id;
 		stworz_entity(pozycje_loty_GDN_WAW[i], id, gdnwaw[i].numer_lotu);
+	}
+	
+	var id_tab_WAW_GDN = [];
+	for (var i=0; i<6; i++) {
+		var id = wawgdn[i].numer_lotu;
+		id = entities.add(new Cesium.Entity());
+		id_tab_WAW_GDN[i] = id;
+		stworz_entity(pozycje_loty_WAW_GDN[i], id, wawgdn[i].numer_lotu);
 	}
 
   </script>
