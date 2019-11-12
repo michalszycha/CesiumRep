@@ -204,13 +204,13 @@ Obserwuj samolot LO3816</button>
 		position = Cesium.Cartesian3.fromDegrees(gdansk_pas1.koniec_long, gdansk_pas1.koniec_lat, 180.0);
 		property.addSample(time, position);
 
-		//pozostaly czas na animacje lotu minus 2*60s na start i lądowanie
-		var reszta_czasu = czas_stop - czas_start - 120;
-		var krok_czasu = reszta_czasu / 5; //5 kroków (punktow)
+		//pozostaly czas na animacje lotu minus 2*60s na start i lądowanie minus 10s wyrównanie lądowania
+		var reszta_czasu = czas_stop - czas_start - 120 - 10;
+		var krok_czasu = reszta_czasu / 4; //4 kroków (punktow)
 
 		//dodanie punktow dla pozostałego czasu pomiedzy startem i lądowaniem
 		for (var i = 1; i <= 4; i += 1) {
-			time = Cesium.JulianDate.addSeconds(time, i * krok_czasu, new Cesium.JulianDate());
+			time = Cesium.JulianDate.addSeconds(time, krok_czasu, new Cesium.JulianDate());
 			position = Cesium.Cartesian3.fromDegrees(gdansk_pas1.koniec_long + (0.49 * i), gdansk_pas1.koniec_lat - (0.44 * i), ((5 % i)+1) * 11000.0);
 			property.addSample(time, position);
 		}
@@ -247,13 +247,13 @@ Obserwuj samolot LO3816</button>
     position = Cesium.Cartesian3.fromDegrees(warszawa_pas1.koniec_long, warszawa_pas1.koniec_lat, 140.0);
     property.addSample(time, position);
 
-    //pozostaly czas na animacje lotu minus 2*60s na start i lądowanie
-    var reszta_czasu = czas_stop - czas_start - 120;
-    var krok_czasu = reszta_czasu / 5; //5 kroków (punktow)
+    //pozostaly czas na animacje lotu minus 2*60s na start i lądowanie minus 10s wyrównanie lądowania
+    var reszta_czasu = czas_stop - czas_start - 120 - 10;
+    var krok_czasu = reszta_czasu / 4; //5 kroków (punktow)
 
     //dodanie punktow dla pozostałego czasu pomiedzy startem i lądowaniem
     for (var i = 1; i <= 4; i += 1) {
-      time = Cesium.JulianDate.addSeconds(time, i * krok_czasu, new Cesium.JulianDate());
+      time = Cesium.JulianDate.addSeconds(time, krok_czasu, new Cesium.JulianDate());
       position = Cesium.Cartesian3.fromDegrees(warszawa_pas1.koniec_long - (0.49 * i), warszawa_pas1.koniec_lat + (0.44 * i), ((5 % i)+1) * 11000.0);
       property.addSample(time, position);
     }
