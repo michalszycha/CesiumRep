@@ -123,15 +123,21 @@ Obserwuj samolot LO3816</button>
 	}
 
 	//Stworzenie obiektow konkretnych lotow klasy Gdansk - Warszawa
-	gdnwaw1 = new GdnToWaw(31500,35100,'LO3832'); //8:45 - 09:45
-	gdnwaw2 = new GdnToWaw(43500,47100,'LO3836'); //12:05 - 13:05
-	gdnwaw3 = new GdnToWaw(65400,69300,'LO3816'); //18:10 - 19:15
+  gdnwaw1 = new GdnToWaw(19800, 23700, 'LO3828'); //05:30 - 06:35
+  gdnwaw2 = new GdnToWaw(31500, 35100, 'LO3832'); //08:45 - 09:45
+	gdnwaw3 = new GdnToWaw(43500, 47100, 'LO3836'); //12:05 - 13:05
+  gdnwaw4 = new GdnToWaw(53700, 57300, 'LO3838'); //14:55 - 15:55
+	gdnwaw5 = new GdnToWaw(65400, 69300, 'LO3816'); //18:10 - 19:15
+  gdnwaw6 = new GdnToWaw(75900, 79500, 'LO3826'); //21:05 - 22:05
 
 	//tabilca z lotami Gdansk - Warszawa
 	var gdnwaw = [];
 	gdnwaw[0] = gdnwaw1;
 	gdnwaw[1] = gdnwaw2;
 	gdnwaw[2] = gdnwaw3;
+  gdnwaw[3] = gdnwaw4;
+  gdnwaw[4] = gdnwaw5;
+  gdnwaw[5] = gdnwaw6;
 
 
 	//Definicja klasy lotow z Warszawy do Gdanska
@@ -144,9 +150,21 @@ Obserwuj samolot LO3816</button>
 	}
 
 	//Stworzenie obiektow konkretnych lotow klasy Warszawa - Gdansk
-	wawgdn1 = new WawToGdn(26100,29700,'LO3831'); //7:15 - 08:15
-	wawgdn2 = new WawToGdn(48000,51300,'LO3937'); //13:20 - 14:15
-	wawgdn3 = new WawToGdn(70800,74100,'LO3825'); //19:40 - 20:35
+	wawgdn1 = new WawToGdn(26100, 29700, 'LO3831'); //07:15 - 08:15
+  wawgdn2 = new WawToGdn(38100, 41700, 'LO3835'); //10:35 - 11:35
+	wawgdn3 = new WawToGdn(48000, 51300, 'LO3837'); //13:20 - 14:15
+  wawgdn4 = new WawToGdn(59400, 63000, 'LO3815'); //16:30 - 17:30
+	wawgdn5 = new WawToGdn(70800, 74100, 'LO3825'); //19:40 - 20:35
+  wawgdn6 = new WawToGdn(81300, 84900, 'LO3827'); //22:35 - 23:35
+
+  //tabilca z lotami Warszawa - Gdansk
+  var wawgdn = [];
+  wawgdn[0] = wawgdn1;
+	wawgdn[1] = wawgdn2;
+	wawgdn[2] = wawgdn3;
+  wawgdn[3] = wawgdn4;
+  wawgdn[4] = wawgdn5;
+  wawgdn[5] = wawgdn6;
 
 	var track_gdnwaw1 = true;
 	var track_gdnwaw2 = true;
