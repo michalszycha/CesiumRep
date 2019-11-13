@@ -149,8 +149,7 @@ z-index:1;">
   
 	
 
-	//var domyslny_czas = Cesium.JulianDate.fromDate(new Date(2019, 10, 11, 1));
-	//console.info("domyslny", domyslny_czas);
+	
 
 	class Czas {
 		constructor(rok,miesiac,dzien,godzina) {
@@ -314,14 +313,36 @@ z-index:1;">
 			}
 		}
 	}
+	
+	//funkcja zmiany czasy symulacji
+	function zmien_czas(rok_start, miesiac_start, dzien_start, godzina_start) {
+		czas_start = new Czas(rok_start,miesiac_start,dzien_start,godzina_start)
+		start = czas_start.zwroc_czas();
+		stop = Cesium.JulianDate.addSeconds(start, 86400, new Cesium.JulianDate());
+		viewer.clock.startTime = start.clone();
+		viewer.clock.stopTime = stop.clone();
+		viewer.clock.currentTime = start.clone();
+		viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; //Loop at the end
+		viewer.clock.multiplier = 10;
+		//usun dotychczasowe entities
+		for (var i=0; i<6; i++) {
+			viewer.entities.removeById(gdnwaw[i].numer_lotu);
+			viewer.entities.removeById(wawgdn[i].numer_lotu);
+		}
+		pozycje_loty_GDN_WAW = [];
+		pozycje_loty_WAW_GDN = [];
+		id_tab_GDN_WAW = [];
+		id_tab_WAW_GDN = [];
+		inicjalizacja_entity(rok_start,miesiac_start,dzien_start);
+	}
 
 	//definicja funkcji zwracającej sciezke lotu samolotu z Gdanska do Warszawy
 	//przekazywane parametry to wlasciwosci obiektow klasy GdnToWaw (wylot,przylot)
-	function generuj_trase_GDN_WAW(czas_start,czas_stop){
+	function generuj_trase_GDN_WAW(czas_start,czas_stop,rok_symulacji,miesiac_symulacji,dzien_symulacji){
 		//definicja zmiennej przechowujacej wspolrzedne i czas
 		var property = new Cesium.SampledPositionProperty();
 		//definicja czasu jako poczatek lotu
-		var time = Cesium.JulianDate.fromDate(new Date(2019, 10, 11, 1));
+		var time = Cesium.JulianDate.fromDate(new Date(rok_symulacji, miesiac_symulacji, dzien_symulacji, 1));
 
 		//dodanie punktu poczatkowego na pasie w Gdansku
 		time = Cesium.JulianDate.addSeconds(time, czas_start, new Cesium.JulianDate());
@@ -353,18 +374,18 @@ z-index:1;">
 		time = Cesium.JulianDate.addSeconds(time, 60, new Cesium.JulianDate());
 		position = Cesium.Cartesian3.fromDegrees(warszawa_pas1.start_long, warszawa_pas1.start_lat, 140.0);
 		property.addSample(time, position);
-
 	return property
 	}
 
 
   //definicja funkcji zwracającej sciezke lotu samolotu z Warszawy do Gdanska
   //przekazywane parametry to wlasciwosci obiektow klasy WawToGdn (wylot,przylot)
-  function generuj_trase_WAW_GDN(czas_start,czas_stop){
+  function generuj_trase_WAW_GDN(czas_start,czas_stop,rok_symulacji,miesiac_symulacji,dzien_symulacji){
     //definicja zmiennej przechowujacej wspolrzedne i czas
     var property = new Cesium.SampledPositionProperty();
     //definicja czasu jako poczatek lotu
-    var time = Cesium.JulianDate.fromDate(new Date(2019, 10, 11, 1));
+    var time = Cesium.JulianDate.fromDate(new Date(rok_symulacji, miesiac_symulacji, dzien_symulacji, 1));
+	console.log("time",time);
 
     //dodanie punktu poczatkowego na pasie w Warszawie
     time = Cesium.JulianDate.addSeconds(time, czas_start, new Cesium.JulianDate());
@@ -434,20 +455,6 @@ z-index:1;">
 		});
 	}
 
-	//funkcja zmiany czasy symulacji
-	function zmien_czas(rok_start, miesiac_start, dzien_start, godzina_start) {
-		czas_start = new Czas(rok_start,miesiac_start,dzien_start,godzina_start)
-		var start = czas_start.zwroc_czas();
-		var stop = Cesium.JulianDate.addSeconds(start, 86400, new Cesium.JulianDate());
-		viewer.clock.startTime = start.clone();
-		viewer.clock.stopTime = stop.clone();
-		viewer.clock.currentTime = start.clone();
-		viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; //Loop at the end
-		viewer.clock.multiplier = 10;
-	}
-
-	
-
 	var viewer = new Cesium.Viewer('cesiumContainer', {
     infoBox: false, //Disable InfoBox widget
     selectionIndicator: false, //Disable selection indicator
@@ -479,52 +486,70 @@ z-index:1;">
 	//tablice z trasami lotów
 	var pozycje_loty_GDN_WAW = [];
 	var pozycje_loty_WAW_GDN = [];
+
 	//oblicz trase z nowej funkcji z gdanska do warszawy
-	var position_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw1.wylot,gdnwaw1.przylot);
-	var position2_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw2.wylot,gdnwaw2.przylot);
-	var position3_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw3.wylot,gdnwaw3.przylot);
-	var position4_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw4.wylot,gdnwaw4.przylot);
-	var position5_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw5.wylot,gdnwaw5.przylot);
-	var position6_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw6.wylot,gdnwaw6.przylot);
-	pozycje_loty_GDN_WAW[0] = position_GDN_WAW;
-	pozycje_loty_GDN_WAW[1] = position2_GDN_WAW;
-	pozycje_loty_GDN_WAW[2] = position3_GDN_WAW;
-	pozycje_loty_GDN_WAW[3] = position4_GDN_WAW;
-	pozycje_loty_GDN_WAW[4] = position5_GDN_WAW;
-	pozycje_loty_GDN_WAW[5] = position6_GDN_WAW;
+	function loty_GDN_WAW(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
+		var position_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw1.wylot,gdnwaw1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position2_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw2.wylot,gdnwaw2.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position3_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw3.wylot,gdnwaw3.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position4_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw4.wylot,gdnwaw4.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position5_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw5.wylot,gdnwaw5.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position6_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw6.wylot,gdnwaw6.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		pozycje_loty_GDN_WAW[0] = position_GDN_WAW;
+		pozycje_loty_GDN_WAW[1] = position2_GDN_WAW;
+		pozycje_loty_GDN_WAW[2] = position3_GDN_WAW;
+		pozycje_loty_GDN_WAW[3] = position4_GDN_WAW;
+		pozycje_loty_GDN_WAW[4] = position5_GDN_WAW;
+		pozycje_loty_GDN_WAW[5] = position6_GDN_WAW;
+	}
 
 	//oblicz trase z nowej funkcji z Warszawy do Gdańska
-	
-	var position_WAW_GDN = generuj_trase_WAW_GDN(wawgdn1.wylot,wawgdn1.przylot);
-	var position2_WAW_GDN = generuj_trase_WAW_GDN(wawgdn2.wylot,wawgdn2.przylot);
-	var position3_WAW_GDN = generuj_trase_WAW_GDN(wawgdn3.wylot,wawgdn3.przylot);
-	var position4_WAW_GDN = generuj_trase_WAW_GDN(wawgdn4.wylot,wawgdn4.przylot);
-	var position5_WAW_GDN = generuj_trase_WAW_GDN(wawgdn5.wylot,wawgdn5.przylot);
-	var position6_WAW_GDN = generuj_trase_WAW_GDN(wawgdn6.wylot,wawgdn6.przylot);
-	pozycje_loty_WAW_GDN[0] = position_WAW_GDN;
-	pozycje_loty_WAW_GDN[1] = position2_WAW_GDN;
-	pozycje_loty_WAW_GDN[2] = position3_WAW_GDN;
-	pozycje_loty_WAW_GDN[3] = position4_WAW_GDN;
-	pozycje_loty_WAW_GDN[4] = position5_WAW_GDN;
-	pozycje_loty_WAW_GDN[5] = position6_WAW_GDN;
+	function loty_WAW_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
+		var position_WAW_GDN = generuj_trase_WAW_GDN(wawgdn1.wylot,wawgdn1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position2_WAW_GDN = generuj_trase_WAW_GDN(wawgdn2.wylot,wawgdn2.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position3_WAW_GDN = generuj_trase_WAW_GDN(wawgdn3.wylot,wawgdn3.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position4_WAW_GDN = generuj_trase_WAW_GDN(wawgdn4.wylot,wawgdn4.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position5_WAW_GDN = generuj_trase_WAW_GDN(wawgdn5.wylot,wawgdn5.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position6_WAW_GDN = generuj_trase_WAW_GDN(wawgdn6.wylot,wawgdn6.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		pozycje_loty_WAW_GDN[0] = position_WAW_GDN;
+		pozycje_loty_WAW_GDN[1] = position2_WAW_GDN;
+		pozycje_loty_WAW_GDN[2] = position3_WAW_GDN;
+		pozycje_loty_WAW_GDN[3] = position4_WAW_GDN;
+		pozycje_loty_WAW_GDN[4] = position5_WAW_GDN;
+		pozycje_loty_WAW_GDN[5] = position6_WAW_GDN;
+	}
 	
 
 	//dodanie do entity trasy dla każdego z lotów z tablicy pozycje_loty_GDN_WAW
+	//var domyslny_czas = Cesium.JulianDate.fromDate(new Date(2019, 10, 11, 1));
+	var domyslny_rok = 2019;
+	var domyslny_miesiac = 10;
+	var domyslny_dzien = 11;
 	var id_tab_GDN_WAW = [];
-	for (var i=0; i<6; i++) {
-		var id = gdnwaw[i].numer_lotu;
-		id = entities.add(new Cesium.Entity());
-		id_tab_GDN_WAW[i] = id;
-		stworz_entity(pozycje_loty_GDN_WAW[i], id, gdnwaw[i].numer_lotu);
-	}
-	
 	var id_tab_WAW_GDN = [];
-	for (var i=0; i<6; i++) {
-		var id = wawgdn[i].numer_lotu;
-		id = entities.add(new Cesium.Entity());
-		id_tab_WAW_GDN[i] = id;
-		stworz_entity(pozycje_loty_WAW_GDN[i], id, wawgdn[i].numer_lotu);
+	function inicjalizacja_entity(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
+		loty_GDN_WAW(rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		loty_WAW_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		console.log("rok", rok_symulacji);
+		console.log("miesiac", miesiac_symulacji);
+		console.log("dzien", dzien_symulacji);
+		
+		for (var i=0; i<6; i++) {
+			var id = gdnwaw[i].numer_lotu;
+			id = entities.add(new Cesium.Entity());
+			id_tab_GDN_WAW[i] = id;
+			stworz_entity(pozycje_loty_GDN_WAW[i], id, gdnwaw[i].numer_lotu);
+		}
+
+		
+		for (var i=0; i<6; i++) {
+			var id = wawgdn[i].numer_lotu;
+			id = entities.add(new Cesium.Entity());
+			id_tab_WAW_GDN[i] = id;
+			stworz_entity(pozycje_loty_WAW_GDN[i], id, wawgdn[i].numer_lotu);
+		}
 	}
+	inicjalizacja_entity(domyslny_rok,domyslny_miesiac,domyslny_dzien);
 
   </script>
 </body>
