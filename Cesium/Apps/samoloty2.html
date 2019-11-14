@@ -58,6 +58,18 @@
 		18. luty 2017</button>
 		</div>
 
+    <div id="buttonContainer" style="position:absolute; left:140px; top:71px;
+		z-index:1;">
+		<button onclick="pas1()" class="cesiumbutton">
+		Pas 1</button>
+		</div>
+
+    <div id="buttonContainer" style="position:absolute; left:140px; top:94px;
+		z-index:1;">
+		<button onclick="pas2()" class="cesiumbutton">
+		Pas 2</button>
+		</div>
+
 		<div id="buttonContainer" style="position:absolute; left:2px; top:150px;
 		z-index:1;">
 		<button id="button_ukryj_GDN_WAW0" onclick="ukryj_lot(0, 1)" class="cesiumbutton"></button>
@@ -587,6 +599,8 @@
 	//tablice z trasami lotów
 	var pozycje_loty_GDN_WAW = [];
 	var pozycje_loty_WAW_GDN = [];
+  var pozycje_loty_GDN_WAW2 = [];
+	var pozycje_loty_WAW2_GDN = [];
 
 	//oblicz trase z nowej funkcji z gdanska do warszawy
 	function loty_GDN_WAW(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
@@ -660,6 +674,9 @@
 	var domyslny_dzien = 11;
 	var id_tab_GDN_WAW = [];
 	var id_tab_WAW_GDN = [];
+  var id_tab_GDN_WAW2 = [];
+	var id_tab_WAW2_GDN = [];
+
 	function inicjalizacja_entity(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
 		loty_GDN_WAW(rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		loty_WAW_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji);
@@ -679,8 +696,44 @@
 			stworz_entity(pozycje_loty_WAW_GDN[i], id, wawgdn[i].numer_lotu);
 		}
 	}
-	inicjalizacja_entity(domyslny_rok,domyslny_miesiac,domyslny_dzien);
 
+  function inicjalizacja_entity_2(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
+    loty_GDN_WAW2(rok_symulacji,miesiac_symulacji,dzien_symulacji);
+    loty_WAW2_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji);
+
+    for (var i=0; i<6; i++) {
+      var id = gdnwaw[i].numer_lotu;
+      id = entities.add(new Cesium.Entity());
+      id_tab_GDN_WAW2[i] = id;
+      stworz_entity(pozycje_loty_GDN_WAW2[i], id, gdnwaw[i].numer_lotu);
+    }
+
+
+    for (var i=0; i<6; i++) {
+      var id = wawgdn[i].numer_lotu;
+      id = entities.add(new Cesium.Entity());
+      id_tab_WAW2_GDN[i] = id;
+      stworz_entity(pozycje_loty_WAW2_GDN[i], id, wawgdn[i].numer_lotu);
+    }
+  }
+
+  function pas1()
+  {
+    for (var i=0; i<6; i++) {
+			viewer.entities.removeById(gdnwaw[i].numer_lotu);
+			viewer.entities.removeById(wawgdn[i].numer_lotu);
+		}
+    inicjalizacja_entity(domyslny_rok,domyslny_miesiac,domyslny_dzien);
+  }
+
+  function pas2()
+  {
+    for (var i=0; i<6; i++) {
+			viewer.entities.removeById(gdnwaw[i].numer_lotu);
+			viewer.entities.removeById(wawgdn[i].numer_lotu);
+		}
+    inicjalizacja_entity_2(domyslny_rok,domyslny_miesiac,domyslny_dzien);
+  }
 
 	//tworzenie tablicy
 	for (var i=0; i<6; i++) {
