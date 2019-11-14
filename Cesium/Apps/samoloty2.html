@@ -604,6 +604,22 @@
 		pozycje_loty_GDN_WAW[5] = position6_GDN_WAW;
 	}
 
+  //oblicz trase z nowej funkcji z gdanska do warszawy2
+	function loty_GDN_WAW2(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
+		var position_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw1.wylot,gdnwaw1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position2_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw2.wylot,gdnwaw2.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position3_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw3.wylot,gdnwaw3.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position4_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw4.wylot,gdnwaw4.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position5_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw5.wylot,gdnwaw5.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position6_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw6.wylot,gdnwaw6.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		pozycje_loty_GDN_WAW2[0] = position_GDN_WAW2;
+		pozycje_loty_GDN_WAW2[1] = position2_GDN_WAW2;
+		pozycje_loty_GDN_WAW2[2] = position3_GDN_WAW2;
+		pozycje_loty_GDN_WAW2[3] = position4_GDN_WAW2;
+		pozycje_loty_GDN_WAW2[4] = position5_GDN_WAW2;
+		pozycje_loty_GDN_WAW2[5] = position6_GDN_WAW2;
+	}
+
 	//oblicz trase z nowej funkcji z Warszawy do Gdańska
 	function loty_WAW_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
 		var position_WAW_GDN = generuj_trase_WAW_GDN(wawgdn1.wylot,wawgdn1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
@@ -618,6 +634,22 @@
 		pozycje_loty_WAW_GDN[3] = position4_WAW_GDN;
 		pozycje_loty_WAW_GDN[4] = position5_WAW_GDN;
 		pozycje_loty_WAW_GDN[5] = position6_WAW_GDN;
+	}
+
+  //oblicz trase z nowej funkcji z Warszawy do Gdańska
+	function loty_WAW2_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
+		var position_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn1.wylot,wawgdn1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position2_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn2.wylot,wawgdn2.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position3_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn3.wylot,wawgdn3.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position4_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn4.wylot,wawgdn4.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position5_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn5.wylot,wawgdn5.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		var position6_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn6.wylot,wawgdn6.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		pozycje_loty_WAW2_GDN[0] = position_WAW2_GDN;
+		pozycje_loty_WAW2_GDN[1] = position2_WAW2_GDN;
+		pozycje_loty_WAW2_GDN[2] = position3_WAW2_GDN;
+		pozycje_loty_WAW2_GDN[3] = position4_WAW2_GDN;
+		pozycje_loty_WAW2_GDN[4] = position5_WAW2_GDN;
+		pozycje_loty_WAW2_GDN[5] = position6_WAW2_GDN;
 	}
 
 
