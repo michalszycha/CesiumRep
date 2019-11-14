@@ -355,7 +355,7 @@ z-index:1;">
 		property.addSample(time, position);
 
 		//pozostaly czas na animacje lotu minus 2*60s na start i lądowanie minus 10s wyrównanie lądowania
-		var reszta_czasu = czas_stop - czas_start - 120 - 10;
+		var reszta_czasu = czas_stop - czas_start - 120 - 360;
 		var krok_czasu = reszta_czasu / 4; //4 kroków (punktow)
 
 		//dodanie punktow dla pozostałego czasu pomiedzy startem i lądowaniem
@@ -366,7 +366,7 @@ z-index:1;">
 		}
 
 		//dodanie punktu na końcu pasa w Warszawie (10s pozniej - trafienie w pas)
-		time = Cesium.JulianDate.addSeconds(time, 10, new Cesium.JulianDate());
+		time = Cesium.JulianDate.addSeconds(time, 360, new Cesium.JulianDate());
 		position = Cesium.Cartesian3.fromDegrees(warszawa_pas1.koniec_long, warszawa_pas1.koniec_lat, 140.0);
 		property.addSample(time, position);
 
@@ -398,7 +398,7 @@ z-index:1;">
     property.addSample(time, position);
 
     //pozostaly czas na animacje lotu minus 2*60s na start i lądowanie minus 10s wyrównanie lądowania
-    var reszta_czasu = czas_stop - czas_start - 120 - 10;
+    var reszta_czasu = czas_stop - czas_start - 120 - 360;
     var krok_czasu = reszta_czasu / 4; //5 kroków (punktow)
 
     //dodanie punktow dla pozostałego czasu pomiedzy startem i lądowaniem
@@ -409,7 +409,7 @@ z-index:1;">
     }
 
     //dodanie punktu na końcu pasa w Gdansku (10s pozniej - trafienie w pas)
-    time = Cesium.JulianDate.addSeconds(time, 10, new Cesium.JulianDate());
+    time = Cesium.JulianDate.addSeconds(time, 360, new Cesium.JulianDate());
     position = Cesium.Cartesian3.fromDegrees(gdansk_pas1.koniec_long, gdansk_pas1.koniec_lat, 1480.0);
     property.addSample(time, position);
 
@@ -530,9 +530,6 @@ z-index:1;">
 	function inicjalizacja_entity(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
 		loty_GDN_WAW(rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		loty_WAW_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji);
-		console.log("rok", rok_symulacji);
-		console.log("miesiac", miesiac_symulacji);
-		console.log("dzien", dzien_symulacji);
 		
 		for (var i=0; i<6; i++) {
 			var id = gdnwaw[i].numer_lotu;
