@@ -14,19 +14,25 @@
       html, body, #cesiumContainer {
           width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
       }
-	  .toolbar {
+	  .toolbar1 {
             display: block;
             position: absolute;
             top: 350px;
             left: 1000px;
 
 		}
+		.toolbar2 {
+            display: block;
+            position: absolute;
+            top: 500px;
+            left: 1000px;
+
+		}
 		#lista_lotow, td{
 			border: 1px solid black;
-			background-color: #ffffff;
 		}
 
-}
+
   </style>
 </head>
 <body>
@@ -42,19 +48,19 @@
 
 		<div id="buttonContainer" style="position:absolute; left:2px; top:48px;
 		z-index:1;">
-		<button onclick="zmien_czas(2019,5,5,5+2)" class="cesiumbutton">
+		<button onclick="zmien_czas(2019,5,5,1+1)" class="cesiumbutton">
 		5. czerwiec 2019</button>
 		</div>
 
 		<div id="buttonContainer" style="position:absolute; left:2px; top:71px;
 		z-index:1;">
-		<button onclick="zmien_czas(2018,8,29,9+2)" class="cesiumbutton">
+		<button onclick="zmien_czas(2018,8,29,1+1)" class="cesiumbutton">
 		29. wrzesień 2018</button>
 		</div>
 
 		<div id="buttonContainer" style="position:absolute; left:2px; top:94px;
 		z-index:1;">
-		<button onclick="zmien_czas(2017,1,18,12+2)" class="cesiumbutton">
+		<button onclick="zmien_czas(2017,1,18,1)" class="cesiumbutton">
 		18. luty 2017</button>
 		</div>
 
@@ -169,11 +175,34 @@
 		</div>
 
 	</div>
-	<div class="toolbar">
-		<table id = "lista_lotow"><tbody>
-
+	<div class="toolbar1">
+		<table width = 150 bgcolor= "#fcf81f";><tbody>
+			<tr>
+				<td>Loty GDN-WAW</td>
+			</tr>
+		</tbody></table>
+		<table id = "lista_lotow_GDN-WAW" bgcolor= "#ffffff"><tbody>
+			<tr>
+				<td>Wylot</td>
+				<td>Przylot</td>
+				<td>Nr lotu</td>
+			</tr>
 		</tbody></table>
 	</div>
+	<div class="toolbar2">
+			<table width = 150 bgcolor= "#fcf81f";><tbody>
+				<tr>
+					<td>Loty WAW-GDN</td>
+				</tr>
+			</tbody></table>
+			<table id = "lista_lotow_WAW-GDN" bgcolor= "#ffffff"><tbody>
+				<tr>
+					<td>Wylot</td>
+					<td>Przylot</td>
+					<td>Nr lotu</td>
+				</tr>
+			</tbody></table>
+		</div>
 
   <script>
 
@@ -190,7 +219,7 @@
 		}
 
 		zwroc_czas() {
-			var czas_cesium = Cesium.JulianDate.fromDate(new Date(this.rok, this.miesiac, this.dzien, this.godzina));
+			var czas_cesium = Cesium.JulianDate.fromDate(new Date(this.rok, this.miesiac, this.dzien, this.godzina), new Cesium.JulianDate());
 			return czas_cesium;
 		}
 	}
@@ -212,23 +241,25 @@
 
 	//Definicja klasy lotow z Gdanska do Warszawy
 	class GdnToWaw {
-		constructor(id, wylot, przylot, numer_lotu, obserwuj) {
+		constructor(id, wylot, przylot, numer_lotu, obserwuj,wylot2,przylot2) {
 			this.id = id;
 			this.wylot = wylot;
 			this.przylot = przylot;
 			this.numer_lotu = numer_lotu;
 			this.obserwuj = obserwuj;
+			this.wylot2 = wylot2;
+			this.przylot2 = przylot2;
 		}
 
 	}
 
 	//Stworzenie obiektow konkretnych lotow klasy Gdansk - Warszawa
-	gdnwaw1 = new GdnToWaw(0,19800, 23700, 'LO3828', true); //05:30 - 06:35
-	gdnwaw2 = new GdnToWaw(1,31500, 35100, 'LO3832', true); //08:45 - 09:45
-	gdnwaw3 = new GdnToWaw(2,43500, 47100, 'LO3836', true); //12:05 - 13:05
-	gdnwaw4 = new GdnToWaw(3,53700, 57300, 'LO3838', true); //14:55 - 15:55
-	gdnwaw5 = new GdnToWaw(4,65400, 69300, 'LO3816', true); //18:10 - 19:15
-	gdnwaw6 = new GdnToWaw(5,75900, 79500, 'LO3826', true); //21:05 - 22:05
+	gdnwaw1 = new GdnToWaw(0,19800, 23700, 'LO3828', true,'05:30','06:35'); //05:30 - 06:35
+	gdnwaw2 = new GdnToWaw(1,31500, 35100, 'LO3832', true,'08:45','09:45'); //08:45 - 09:45
+	gdnwaw3 = new GdnToWaw(2,43500, 47100, 'LO3836', true,'12:05','13:05'); //12:05 - 13:05
+	gdnwaw4 = new GdnToWaw(3,53700, 57300, 'LO3838', true,'14:55','15:55'); //14:55 - 15:55
+	gdnwaw5 = new GdnToWaw(4,65400, 69300, 'LO3816', true,'18:10','19:15'); //18:10 - 19:15
+	gdnwaw6 = new GdnToWaw(5,75900, 79500, 'LO3826', true,'21:05','22:05'); //21:05 - 22:05
 
 	//tabilca z lotami Gdansk - Warszawa
 	var gdnwaw = [];
@@ -242,22 +273,24 @@
 
 	//Definicja klasy lotow z Warszawy do Gdanska
 	class WawToGdn {
-		constructor(id,wylot, przylot, numer_lotu, obserwuj) {
+		constructor(id,wylot, przylot, numer_lotu, obserwuj,wylot2,przylot2) {
 		this.id = id;
 		this.wylot = wylot;
 		this.przylot = przylot;
 		this.numer_lotu = numer_lotu;
 		this.obserwuj = obserwuj;
+		this.wylot2 = wylot2;
+		this.przylot2 = przylot2;
 		}
 	}
 
 	//Stworzenie obiektow konkretnych lotow klasy Warszawa - Gdansk
-	wawgdn1 = new WawToGdn(0,26100, 29700, 'LO3831', true); //07:15 - 08:15
-	wawgdn2 = new WawToGdn(1,38100, 41700, 'LO3835', true); //10:35 - 11:35
-	wawgdn3 = new WawToGdn(2,48000, 51300, 'LO3837', true); //13:20 - 14:15
-	wawgdn4 = new WawToGdn(3,59400, 63000, 'LO3815', true); //16:30 - 17:30
-	wawgdn5 = new WawToGdn(4,70800, 74100, 'LO3825', true); //19:40 - 20:35
-	wawgdn6 = new WawToGdn(5,81300, 84900, 'LO3827', true); //22:35 - 23:35
+	wawgdn1 = new WawToGdn(0,26100, 29700, 'LO3831', true,'07:15','08:15'); //07:15 - 08:15
+	wawgdn2 = new WawToGdn(1,38100, 41700, 'LO3835', true,'10:35','11:35'); //10:35 - 11:35
+	wawgdn3 = new WawToGdn(2,48000, 51300, 'LO3837', true,'13:20','14:15'); //13:20 - 14:15
+	wawgdn4 = new WawToGdn(3,59400, 63000, 'LO3815', true,'16:30','17:30'); //16:30 - 17:30
+	wawgdn5 = new WawToGdn(4,70800, 74100, 'LO3825', true,'19:40','20:35'); //19:40 - 20:35
+	wawgdn6 = new WawToGdn(5,81300, 84900, 'LO3827', true,'22:35','23:35'); //22:35 - 23:35
 
 	//tabilca z lotami Warszawa - Gdansk
 	var wawgdn = [];
@@ -355,9 +388,10 @@
 	function zmien_czas(rok_start, miesiac_start, dzien_start, godzina_start) {
 		rok_symulacji = rok_start;
 		miesiac_symulacji = miesiac_start;
-		dzien_start = dzien_symulacji;
+		dzien_symulacji = dzien_start;
 		czas_start = new Czas(rok_start,miesiac_start,dzien_start,godzina_start)
-		start = czas_start.zwroc_czas();
+		start = Cesium.JulianDate.fromDate(new Date(rok_start,miesiac_start,dzien_start,godzina_start));
+		//start = czas_start.zwroc_czas();
 		stop = Cesium.JulianDate.addSeconds(start, 86400, new Cesium.JulianDate());
 		viewer.clock.startTime = start.clone();
 		viewer.clock.stopTime = stop.clone();
@@ -373,7 +407,7 @@
 		pozycje_loty_WAW_GDN = [];
 		id_tab_GDN_WAW = [];
 		id_tab_WAW_GDN = [];
-		inicjalizacja_entity(rok_start,miesiac_start,dzien_start);
+		//inicjalizacja_entity(rok_start,miesiac_start,dzien_start);
 	}
 
 	//definicja funkcji zwracającej sciezke lotu samolotu z Gdanska do Warszawy
@@ -631,7 +665,7 @@
 	//tablice z trasami lotów
 	var pozycje_loty_GDN_WAW = [];
 	var pozycje_loty_WAW_GDN = [];
-  var pozycje_loty_GDN_WAW2 = [];
+ 	var pozycje_loty_GDN_WAW2 = [];
 	var pozycje_loty_WAW2_GDN = [];
 
 	var czasy_GDN_WAW_start = [];
@@ -641,7 +675,7 @@
 
 	//oblicz trase z nowej funkcji z gdanska do warszawy
 	function loty_GDN_WAW(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
-		var position_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw1.id,gdnwaw1.wylot,gdnwaw1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		 var position_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw1.id,gdnwaw1.wylot,gdnwaw1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position2_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw2.id,gdnwaw2.wylot,gdnwaw2.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position3_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw3.id,gdnwaw3.wylot,gdnwaw3.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position4_GDN_WAW = generuj_trase_GDN_WAW(gdnwaw4.id,gdnwaw4.wylot,gdnwaw4.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
@@ -657,7 +691,7 @@
 
   //oblicz trase z nowej funkcji z gdanska do warszawy2
 	function loty_GDN_WAW2(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
-		var position_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw1.id,gdnwaw1.wylot,gdnwaw1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		 var position_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw1.id,gdnwaw1.wylot,gdnwaw1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position2_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw2.id,gdnwaw2.wylot,gdnwaw2.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position3_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw3.id,gdnwaw3.wylot,gdnwaw3.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position4_GDN_WAW2 = generuj_trase_GDN_WAW2(gdnwaw4.id,gdnwaw4.wylot,gdnwaw4.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
@@ -673,7 +707,7 @@
 
 	//oblicz trase z nowej funkcji z Warszawy do Gdańska
 	function loty_WAW_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
-		var position_WAW_GDN = generuj_trase_WAW_GDN(wawgdn1.id,wawgdn1.wylot,wawgdn1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		 var position_WAW_GDN = generuj_trase_WAW_GDN(wawgdn1.id,wawgdn1.wylot,wawgdn1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position2_WAW_GDN = generuj_trase_WAW_GDN(wawgdn2.id,wawgdn2.wylot,wawgdn2.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position3_WAW_GDN = generuj_trase_WAW_GDN(wawgdn3.id,wawgdn3.wylot,wawgdn3.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position4_WAW_GDN = generuj_trase_WAW_GDN(wawgdn4.id,wawgdn4.wylot,wawgdn4.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
@@ -689,7 +723,7 @@
 
   //oblicz trase z nowej funkcji z Warszawy do Gdańska
 	function loty_WAW2_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
-		var position_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn1.id,wawgdn1.wylot,wawgdn1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
+		 var position_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn1.id,wawgdn1.wylot,wawgdn1.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position2_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn2.id,wawgdn2.wylot,wawgdn2.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position3_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn3.id,wawgdn3.wylot,wawgdn3.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		var position4_WAW2_GDN = generuj_trase_WAW2_GDN(wawgdn4.id,wawgdn4.wylot,wawgdn4.przylot,rok_symulacji,miesiac_symulacji,dzien_symulacji);
@@ -758,62 +792,69 @@
     }
   }
 
+  var rob;
   function pas1()
   {
+	rob = false;
     for (var i=0; i<6; i++) {
 			viewer.entities.removeById(gdnwaw[i].numer_lotu);
 			viewer.entities.removeById(wawgdn[i].numer_lotu);
 		}
     inicjalizacja_entity(rok_symulacji,miesiac_symulacji,dzien_symulacji);
-	rob_tablice();
+	rob = true;
+	rob_tablice(rob);
   }
 
   function pas2()
   {
+	rob = false;
     for (var i=0; i<6; i++) {
 			viewer.entities.removeById(gdnwaw[i].numer_lotu);
 			viewer.entities.removeById(wawgdn[i].numer_lotu);
 		}
     inicjalizacja_entity_2(rok_symulacji,miesiac_symulacji,dzien_symulacji);
-	rob_tablice();
+	rob = true;
+	rob_tablice(rob);
   }
 
 	//tworzenie tablicy
-	var table = document.getElementById("lista_lotow");
-	async function rob_tablice(){
-		index = 0;
-		while(true){
+	var table_GDN_WAW = document.getElementById("lista_lotow_GDN-WAW");
+	var table_WAW_GDN = document.getElementById("lista_lotow_WAW-GDN");
+	async function rob_tablice(rob){
+		index_GDN_WAW = 1;
+		index_WAW_GDN = 1;
+		while(rob){
 			for (var i=0; i<6; i++) {
 				var teraz = viewer.clock.currentTime;
 				if((teraz.secondsOfDay >= czasy_GDN_WAW_start[i].secondsOfDay) && (teraz.secondsOfDay <= czasy_GDN_WAW_koniec[i].secondsOfDay)) {
-					if(!(table.rows.namedItem(gdnwaw[i].numer_lotu))){
-						console.log("i złapane", i);
-						console.log("nr zlapane", gdnwaw[i].numer_lotu);
-						console.log("teraz", teraz);
-						console.log("start", czasy_GDN_WAW_start[i].secondsOfDay);
-						console.log("koniec", czasy_GDN_WAW_koniec[i].secondsOfDay);
-						var row = table.insertRow(index);
+					if(!(table_GDN_WAW.rows.namedItem(gdnwaw[i].numer_lotu))){
+						//console.log("i złapane", i);
+						//console.log("nr zlapane", gdnwaw[i].numer_lotu);
+						//console.log("teraz", teraz);
+						//console.log("start", czasy_GDN_WAW_start[i].secondsOfDay);
+						//console.log("koniec", czasy_GDN_WAW_koniec[i].secondsOfDay);
+						var row = table_GDN_WAW.insertRow(index_GDN_WAW);
 						row.id = gdnwaw[i].numer_lotu;
 						var cell_wylot = row.insertCell(0);
 						var cell_przylot = row.insertCell(1);
 						var cell_numer = row.insertCell(2);
-						cell_wylot.innerHTML = gdnwaw[i].wylot;
-						cell_przylot.innerHTML = gdnwaw[i].przylot;
+						cell_wylot.innerHTML = gdnwaw[i].wylot2;
+						cell_przylot.innerHTML = gdnwaw[i].przylot2;
 						cell_numer.innerHTML = gdnwaw[i].numer_lotu;
-						index++;
+						index_GDN_WAW+=1;
 					}
 				}
 				if((teraz.secondsOfDay <= czasy_GDN_WAW_start[i].secondsOfDay) || (teraz.secondsOfDay >= czasy_GDN_WAW_koniec[i].secondsOfDay)) {
-					console.log("i niezłapane", i);
-					console.log("nr niezlapane", gdnwaw[i].numer_lotu);
+					//console.log("i niezłapane", i);
+					//console.log("nr niezlapane", gdnwaw[i].numer_lotu);
 					try {
 						var rowIndex = document.getElementById(gdnwaw[i].numer_lotu).rowIndex;
-						table.deleteRow(rowIndex);
-						console.log("dziala", row.id);
-						index--;
+						table_GDN_WAW.deleteRow(rowIndex);
+						//console.log("dziala", row.id);
+						index_GDN_WAW-=1;
 					}
 					catch(err) {
-						console.log("error: ",err.message);
+						//console.log("error: ",err.message);
 					}
 				}
 				//await sleep(2000);
@@ -821,31 +862,31 @@
 			for (var i=0; i<6; i++) {
 				var teraz = viewer.clock.currentTime;
 				if((teraz.secondsOfDay >= czasy_WAW_GDN_start[i].secondsOfDay) && (teraz.secondsOfDay <= czasy_WAW_GDN_koniec[i].secondsOfDay)) {
-					if(!(table.rows.namedItem(wawgdn[i].numer_lotu))){
-						console.log("i złapane", i);
-						console.log("nr zlapane", wawgdn[i].numer_lotu);
-						console.log("teraz", teraz);
-						console.log("start", czasy_WAW_GDN_start[i].secondsOfDay);
-						console.log("koniec", czasy_WAW_GDN_koniec[i].secondsOfDay);
-						var row = table.insertRow(index);
+					if(!(table_WAW_GDN.rows.namedItem(wawgdn[i].numer_lotu))){
+						//console.log("i złapane", i);
+						//console.log("nr zlapane", wawgdn[i].numer_lotu);
+						//console.log("teraz", teraz);
+						//console.log("start", czasy_WAW_GDN_start[i].secondsOfDay);
+						//console.log("koniec", czasy_WAW_GDN_koniec[i].secondsOfDay);
+						var row = table_WAW_GDN.insertRow(index_WAW_GDN);
 						row.id = wawgdn[i].numer_lotu;
 						var cell_wylot = row.insertCell(0);
 						var cell_przylot = row.insertCell(1);
 						var cell_numer = row.insertCell(2);
-						cell_wylot.innerHTML = wawgdn[i].wylot;
-						cell_przylot.innerHTML = wawgdn[i].przylot;
+						cell_wylot.innerHTML = wawgdn[i].wylot2;
+						cell_przylot.innerHTML = wawgdn[i].przylot2;
 						cell_numer.innerHTML = wawgdn[i].numer_lotu;
-						index++;
+						index_WAW_GDN+=1;
 					}
 				}
 				if((teraz.secondsOfDay <= czasy_WAW_GDN_start[i].secondsOfDay) || (teraz.secondsOfDay >= czasy_WAW_GDN_koniec[i].secondsOfDay)) {
-					console.log("i niezłapane", i);
-					console.log("nr niezlapane", wawgdn[i].numer_lotu);
+					//console.log("i niezłapane", i);
+					//console.log("nr niezlapane", wawgdn[i].numer_lotu);
 					try {
 						var rowIndex = document.getElementById(wawgdn[i].numer_lotu).rowIndex;
-						table.deleteRow(rowIndex);
-						console.log("dziala", row.id);
-						index--;
+						table_WAW_GDN.deleteRow(rowIndex);
+						//console.log("dziala", row.id);
+						index_WAW_GDN-=1;
 					}
 					catch(err) {
 						console.log("error: ",err.message);
