@@ -19,13 +19,13 @@
             position: absolute;
             top: 350px;
             left: 1000px;
-			
+
 		}
 		#lista_lotow, td{
 			border: 1px solid black;
 			background-color: #f1f1c1;
 		}
-		
+
 }
   </style>
 </head>
@@ -159,15 +159,15 @@
 	</div>
 	<div class="toolbar">
 		<table id = "lista_lotow"><tbody>
-			
+
 		</tbody></table>
 	</div>
 
   <script>
-  
-	
 
-	
+
+
+
 
 	class Czas {
 		constructor(rok,miesiac,dzien,godzina) {
@@ -252,7 +252,7 @@
 	wawgdn[3] = wawgdn4;
 	wawgdn[4] = wawgdn5;
 	wawgdn[5] = wawgdn6;
-	
+
 	//uzupelnianie podpisow przyciskow
 	for (var i=0;i<6;i++) {
 		var id_button = "button_ukryj_GDN_WAW"+i;
@@ -274,7 +274,7 @@
 		var x = document.getElementById(id_button);
 		x.textContent = "Obserwuj lot " + wawgdn[i].numer_lotu;
 	}
-	
+
 	//funkcja do sledzenia lotow
 	function obserwuj_lot(i,kierunek) {
 		if(kierunek) {
@@ -301,7 +301,7 @@
 		viewer.trackedEntity = undefined;
 		viewer.zoomTo(viewer.entities, new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90)));
 	}
-	
+
 	//funkcja do ukrywania/pokazywania lotow
 	function ukryj_lot(i,kierunek) {
 		if(kierunek) {
@@ -331,7 +331,7 @@
 			}
 		}
 	}
-	
+
 	//funkcja zmiany czasy symulacji
 	function zmien_czas(rok_start, miesiac_start, dzien_start, godzina_start) {
 		czas_start = new Czas(rok_start,miesiac_start,dzien_start,godzina_start)
@@ -427,7 +427,7 @@
 
     //dodanie punktu na końcu pasa w Gdansku (10s pozniej - trafienie w pas)
     time = Cesium.JulianDate.addSeconds(time, 360, new Cesium.JulianDate());
-    position = Cesium.Cartesian3.fromDegrees(gdansk_pas1.koniec_long, gdansk_pas1.koniec_lat, 1480.0);
+    position = Cesium.Cartesian3.fromDegrees(gdansk_pas1.koniec_long, gdansk_pas1.koniec_lat, 180.0);
     property.addSample(time, position);
 
     //dodanie punktu na poczatku pasa w Gdansku (60s pozniej)
@@ -535,7 +535,7 @@
 		pozycje_loty_WAW_GDN[4] = position5_WAW_GDN;
 		pozycje_loty_WAW_GDN[5] = position6_WAW_GDN;
 	}
-	
+
 
 	//dodanie do entity trasy dla każdego z lotów z tablicy pozycje_loty_GDN_WAW
 	//var domyslny_czas = Cesium.JulianDate.fromDate(new Date(2019, 10, 11, 1));
@@ -547,7 +547,7 @@
 	function inicjalizacja_entity(rok_symulacji,miesiac_symulacji,dzien_symulacji) {
 		loty_GDN_WAW(rok_symulacji,miesiac_symulacji,dzien_symulacji);
 		loty_WAW_GDN(rok_symulacji,miesiac_symulacji,dzien_symulacji);
-		
+
 		for (var i=0; i<6; i++) {
 			var id = gdnwaw[i].numer_lotu;
 			id = entities.add(new Cesium.Entity());
@@ -555,7 +555,7 @@
 			stworz_entity(pozycje_loty_GDN_WAW[i], id, gdnwaw[i].numer_lotu);
 		}
 
-		
+
 		for (var i=0; i<6; i++) {
 			var id = wawgdn[i].numer_lotu;
 			id = entities.add(new Cesium.Entity());
