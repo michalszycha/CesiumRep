@@ -14,136 +14,154 @@
       html, body, #cesiumContainer {
           width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
       }
+	  .toolbar {
+            display: block;
+            position: absolute;
+            top: 350px;
+            left: 1000px;
+			
+		}
+		#lista_lotow, td{
+			border: 1px solid black;
+			background-color: #f1f1c1;
+		}
+		
+}
   </style>
 </head>
 <body>
-  <div id="cesiumContainer">
+	<div id="cesiumContainer">
 
 
 
-<div id="buttonContainer1" style="position:absolute; left:2px; top:25px;
-z-index:1;">
-<button onclick="patrz_z_gory()" class="cesiumbutton">
-Patrz z góry</button>
-</div>
+		<div id="buttonContainer1" style="position:absolute; left:2px; top:25px;
+		z-index:1;">
+		<button onclick="patrz_z_gory()" class="cesiumbutton">
+		Patrz z góry</button>
+		</div>
 
-<div id="buttonContainer" style="position:absolute; left:2px; top:48px;
-z-index:1;">
-<button onclick="zmien_czas(2019,5,5,5+2)" class="cesiumbutton">
-5. czerwiec 2019</button>
-</div>
+		<div id="buttonContainer" style="position:absolute; left:2px; top:48px;
+		z-index:1;">
+		<button onclick="zmien_czas(2019,5,5,5+2)" class="cesiumbutton">
+		5. czerwiec 2019</button>
+		</div>
 
-<div id="buttonContainer" style="position:absolute; left:2px; top:71px;
-z-index:1;">
-<button onclick="zmien_czas(2018,8,29,9+2)" class="cesiumbutton">
-29. wrzesień 2018</button>
-</div>
+		<div id="buttonContainer" style="position:absolute; left:2px; top:71px;
+		z-index:1;">
+		<button onclick="zmien_czas(2018,8,29,9+2)" class="cesiumbutton">
+		29. wrzesień 2018</button>
+		</div>
 
-<div id="buttonContainer" style="position:absolute; left:2px; top:94px;
-z-index:1;">
-<button onclick="zmien_czas(2017,1,18,12+2)" class="cesiumbutton">
-18. luty 2017</button>
-</div>
+		<div id="buttonContainer" style="position:absolute; left:2px; top:94px;
+		z-index:1;">
+		<button onclick="zmien_czas(2017,1,18,12+2)" class="cesiumbutton">
+		18. luty 2017</button>
+		</div>
 
-<div id="buttonContainer" style="position:absolute; left:2px; top:150px;
-z-index:1;">
-<button id="button_ukryj_GDN_WAW0" onclick="ukryj_lot(0, 1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:2px; top:173px;
-z-index:1;">
-<button id="button_ukryj_GDN_WAW1" onclick="ukryj_lot(1, 1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:2px; top:196px;
-z-index:1;">
-<button id="button_ukryj_GDN_WAW2" onclick="ukryj_lot(2, 1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:2px; top:219px;
-z-index:1;">
-<button id="button_ukryj_GDN_WAW3" onclick="ukryj_lot(3, 1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:2px; top:242px;
-z-index:1;">
-<button id="button_ukryj_GDN_WAW4" onclick="ukryj_lot(4, 1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:2px; top:265px;
-z-index:1;">
-<button id="button_ukryj_GDN_WAW5" onclick="ukryj_lot(5, 1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:125px; top:150px;
-z-index:1;">
-<button id="button_ukryj_WAW_GDN0" onclick="ukryj_lot(0, 0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:125px; top:173px;
-z-index:1;">
-<button id="button_ukryj_WAW_GDN1" onclick="ukryj_lot(1, 0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:125px; top:196px;
-z-index:1;">
-<button id="button_ukryj_WAW_GDN2" onclick="ukryj_lot(2, 0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:125px; top:219px;
-z-index:1;">
-<button id="button_ukryj_WAW_GDN3" onclick="ukryj_lot(3, 0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:125px; top:242px;
-z-index:1;">
-<button id="button_ukryj_WAW_GDN4" onclick="ukryj_lot(4, 0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute; left:125px; top:265px;
-z-index:1;">
-<button id="button_ukryj_WAW_GDN5" onclick="ukryj_lot(5, 0)" class="cesiumbutton"></button>
-</div>
+		<div id="buttonContainer" style="position:absolute; left:2px; top:150px;
+		z-index:1;">
+		<button id="button_ukryj_GDN_WAW0" onclick="ukryj_lot(0, 1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:2px; top:173px;
+		z-index:1;">
+		<button id="button_ukryj_GDN_WAW1" onclick="ukryj_lot(1, 1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:2px; top:196px;
+		z-index:1;">
+		<button id="button_ukryj_GDN_WAW2" onclick="ukryj_lot(2, 1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:2px; top:219px;
+		z-index:1;">
+		<button id="button_ukryj_GDN_WAW3" onclick="ukryj_lot(3, 1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:2px; top:242px;
+		z-index:1;">
+		<button id="button_ukryj_GDN_WAW4" onclick="ukryj_lot(4, 1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:2px; top:265px;
+		z-index:1;">
+		<button id="button_ukryj_GDN_WAW5" onclick="ukryj_lot(5, 1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:125px; top:150px;
+		z-index:1;">
+		<button id="button_ukryj_WAW_GDN0" onclick="ukryj_lot(0, 0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:125px; top:173px;
+		z-index:1;">
+		<button id="button_ukryj_WAW_GDN1" onclick="ukryj_lot(1, 0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:125px; top:196px;
+		z-index:1;">
+		<button id="button_ukryj_WAW_GDN2" onclick="ukryj_lot(2, 0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:125px; top:219px;
+		z-index:1;">
+		<button id="button_ukryj_WAW_GDN3" onclick="ukryj_lot(3, 0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:125px; top:242px;
+		z-index:1;">
+		<button id="button_ukryj_WAW_GDN4" onclick="ukryj_lot(4, 0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute; left:125px; top:265px;
+		z-index:1;">
+		<button id="button_ukryj_WAW_GDN5" onclick="ukryj_lot(5, 0)" class="cesiumbutton"></button>
+		</div>
 
-<div id="buttonContainer" style="position:absolute;left:2px;top:300px;
-z-index:1;">
-<button id="button_obserwuj_GDN_WAW0" onclick="obserwuj_lot(0,1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:2px;top:323px;
-z-index:1;">
-<button id="button_obserwuj_GDN_WAW1" onclick="obserwuj_lot(1,1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:2px;top:346px;
-z-index:1;">
-<button id="button_obserwuj_GDN_WAW2" onclick="obserwuj_lot(2,1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:2px;top:369px;
-z-index:1;">
-<button id="button_obserwuj_GDN_WAW3" onclick="obserwuj_lot(3,1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:2px;top:392px;
-z-index:1;">
-<button id="button_obserwuj_GDN_WAW4" onclick="obserwuj_lot(4,1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:2px;top:415px;
-z-index:1;">
-<button id="button_obserwuj_GDN_WAW5" onclick="obserwuj_lot(5,1)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:150px;top:300px;
-z-index:1;">
-<button id="button_obserwuj_WAW_GDN0" onclick="obserwuj_lot(0,0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:150px;top:323px;
-z-index:1;">
-<button id="button_obserwuj_WAW_GDN1" onclick="obserwuj_lot(1,0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:150px;top:346px;
-z-index:1;">
-<button id="button_obserwuj_WAW_GDN2" onclick="obserwuj_lot(2,0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:150px;top:369px;
-z-index:1;">
-<button id="button_obserwuj_WAW_GDN3" onclick="obserwuj_lot(3,0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:150px;top:392px;
-z-index:1;">
-<button id="button_obserwuj_WAW_GDN4" onclick="obserwuj_lot(4,0)" class="cesiumbutton"></button>
-</div>
-<div id="buttonContainer" style="position:absolute;left:150px;top:415px;
-z-index:1;">
-<button id="button_obserwuj_WAW_GDN5" onclick="obserwuj_lot(5,0)" class="cesiumbutton"></button>
-</div>
+		<div id="buttonContainer" style="position:absolute;left:2px;top:300px;
+		z-index:1;">
+		<button id="button_obserwuj_GDN_WAW0" onclick="obserwuj_lot(0,1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:2px;top:323px;
+		z-index:1;">
+		<button id="button_obserwuj_GDN_WAW1" onclick="obserwuj_lot(1,1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:2px;top:346px;
+		z-index:1;">
+		<button id="button_obserwuj_GDN_WAW2" onclick="obserwuj_lot(2,1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:2px;top:369px;
+		z-index:1;">
+		<button id="button_obserwuj_GDN_WAW3" onclick="obserwuj_lot(3,1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:2px;top:392px;
+		z-index:1;">
+		<button id="button_obserwuj_GDN_WAW4" onclick="obserwuj_lot(4,1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:2px;top:415px;
+		z-index:1;">
+		<button id="button_obserwuj_GDN_WAW5" onclick="obserwuj_lot(5,1)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:150px;top:300px;
+		z-index:1;">
+		<button id="button_obserwuj_WAW_GDN0" onclick="obserwuj_lot(0,0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:150px;top:323px;
+		z-index:1;">
+		<button id="button_obserwuj_WAW_GDN1" onclick="obserwuj_lot(1,0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:150px;top:346px;
+		z-index:1;">
+		<button id="button_obserwuj_WAW_GDN2" onclick="obserwuj_lot(2,0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:150px;top:369px;
+		z-index:1;">
+		<button id="button_obserwuj_WAW_GDN3" onclick="obserwuj_lot(3,0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:150px;top:392px;
+		z-index:1;">
+		<button id="button_obserwuj_WAW_GDN4" onclick="obserwuj_lot(4,0)" class="cesiumbutton"></button>
+		</div>
+		<div id="buttonContainer" style="position:absolute;left:150px;top:415px;
+		z-index:1;">
+		<button id="button_obserwuj_WAW_GDN5" onclick="obserwuj_lot(5,0)" class="cesiumbutton"></button>
+		</div>
 
-</div>
+	</div>
+	<div class="toolbar">
+		<table id = "lista_lotow"><tbody>
+			
+		</tbody></table>
+	</div>
 
   <script>
   
@@ -385,7 +403,6 @@ z-index:1;">
     var property = new Cesium.SampledPositionProperty();
     //definicja czasu jako poczatek lotu
     var time = Cesium.JulianDate.fromDate(new Date(rok_symulacji, miesiac_symulacji, dzien_symulacji, 1));
-	console.log("time",time);
 
     //dodanie punktu poczatkowego na pasie w Warszawie
     time = Cesium.JulianDate.addSeconds(time, czas_start, new Cesium.JulianDate());
@@ -547,6 +564,15 @@ z-index:1;">
 		}
 	}
 	inicjalizacja_entity(domyslny_rok,domyslny_miesiac,domyslny_dzien);
+
+
+	//tworzenie tablicy
+	for (var i=0; i<6; i++) {
+		var table = document.getElementById("lista_lotow");
+		var row = table.insertRow(i);
+		var cell1 = row.insertCell(0);
+		cell1.innerHTML = gdnwaw[i].numer_lotu;
+	}
 
   </script>
 </body>
