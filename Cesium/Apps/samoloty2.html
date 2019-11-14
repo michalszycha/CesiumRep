@@ -353,6 +353,9 @@
 
 	//funkcja zmiany czasy symulacji
 	function zmien_czas(rok_start, miesiac_start, dzien_start, godzina_start) {
+		rok_symulacji = rok_start;
+		miesiac_symulacji = miesiac_start;
+		dzien_start = dzien_symulacji;
 		czas_start = new Czas(rok_start,miesiac_start,dzien_start,godzina_start)
 		start = czas_start.zwroc_czas();
 		stop = Cesium.JulianDate.addSeconds(start, 86400, new Cesium.JulianDate());
@@ -584,6 +587,19 @@
 		});
 	}
 
+	//var domyslny_czas = Cesium.JulianDate.fromDate(new Date(2019, 10, 11, 1));
+	var rok_symulacji;
+	var miesiac_symulacji;
+	var dzien_symulacji;
+
+	var domyslny_rok = 2019;
+	var domyslny_miesiac = 10;
+	var domyslny_dzien = 7;
+
+	rok_symulacji = domyslny_rok;
+	miesiac_symulacji = domyslny_miesiac;
+	dzien_symulacji = domyslny_dzien
+
 	var viewer = new Cesium.Viewer('cesiumContainer', {
     infoBox: false, //Disable InfoBox widget
     selectionIndicator: false, //Disable selection indicator
@@ -599,7 +615,7 @@
 	viewer.scene.globe.depthTestAgainstTerrain = true;
 
 	//Set bounds of our simulation time
-	var start = Cesium.JulianDate.fromDate(new Date(2019, 10, 11, 7));
+	var start = Cesium.JulianDate.fromDate(new Date(rok_symulacji, miesiac_symulacji, dzien_symulacji, 7));
 	var stop = Cesium.JulianDate.addSeconds(start, 86400, new Cesium.JulianDate());
 
 	//Make sure viewer is at the desired time.
@@ -689,10 +705,10 @@
 
 
 	//dodanie do entity trasy dla każdego z lotów z tablicy pozycje_loty_GDN_WAW
-	//var domyslny_czas = Cesium.JulianDate.fromDate(new Date(2019, 10, 11, 1));
-	var domyslny_rok = 2019;
-	var domyslny_miesiac = 10;
-	var domyslny_dzien = 11;
+	
+
+
+	
 	var id_tab_GDN_WAW = [];
 	var id_tab_WAW_GDN = [];
   	//var id_tab_GDN_WAW2 = [];
@@ -748,7 +764,7 @@
 			viewer.entities.removeById(gdnwaw[i].numer_lotu);
 			viewer.entities.removeById(wawgdn[i].numer_lotu);
 		}
-    inicjalizacja_entity(domyslny_rok,domyslny_miesiac,domyslny_dzien);
+    inicjalizacja_entity(rok_symulacji,miesiac_symulacji,dzien_symulacji);
 	rob_tablice();
   }
 
@@ -758,7 +774,7 @@
 			viewer.entities.removeById(gdnwaw[i].numer_lotu);
 			viewer.entities.removeById(wawgdn[i].numer_lotu);
 		}
-    inicjalizacja_entity_2(domyslny_rok,domyslny_miesiac,domyslny_dzien);
+    inicjalizacja_entity_2(rok_symulacji,miesiac_symulacji,dzien_symulacji);
 	rob_tablice();
   }
 
